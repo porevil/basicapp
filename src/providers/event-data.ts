@@ -5,6 +5,7 @@ import firebase from 'firebase';
 export class EventData {
   public currentUser: any;
   public eventList: any;
+  public profilePictureRef: any;
 
   constructor() {
 
@@ -22,23 +23,35 @@ export class EventData {
     return this.eventList.push({
       name: eventName,
       date: eventDate,
-      price: eventPrice,
-      cost: eventCost
+      price: eventPrice * 1,
+      cost: eventCost * 1,
+      revenue: eventCost * -1
     }).then(newEvent => {
       this.eventList.child(newEvent.key).child('id').set(newEvent.key);
     });
 
   }
 
-  addGuest(guestName, eventId, eventPrice): any {
+  addGuest(guestName, eventId, eventPrice, guestPicture = null): any {
     console.log('addGuest on UID ' + this.currentUser.uid);
     return this.eventList.child(eventId).child('guestList').push({
       guestName: guestName
-    }).then(() => {
-      this.eventList.child(eventId).child('revenue').transaction((revenue) => {
-        revenue += eventPrice;
+    }).then((newGuest) => {
+      this.eventList.child(eventId).transaction( (event) => {
+        event.revenue += eventPrice;
         return event;
       });
+
+      if (guestPicture != null) {
+        this.profilePictureRef.child(newGuest.key).child('profilePicture.png')
+      .putString(guestPicture, 'base64', {contentType: 'image/png'})
+        .then((savedPicture) => {
+          this.eventList.child(eventId).child('guestList').child(newGuest.key).child('profilePicture')
+          .set(savedPicture.downloadURL);
+        });
+      }
+      
+
     });
   }
 
@@ -58,7 +71,7 @@ export class EventData {
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log('EventData onAuthStateChanged UID get new eventList');
+        console.log('EventData onAuthStateChanged get new eventList');
         this.currentUser = firebase.auth().currentUser.uid;
         this.eventList = firebase.database().ref('userProfile/' + this.currentUser + '/eventList');
       } else {

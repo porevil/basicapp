@@ -21,17 +21,17 @@ export class EventDetailPage {
   }
 
   addGuest(guestName) {
-      this.eventData.addGuest(guestName, this.currentEvent.id, this.currentEvent.price).then(() => {
+    this.eventData.addGuest(guestName, this.currentEvent.id, this.currentEvent.price, this.guestPicture).then(() => {
       this.guestName = '';
       this.guestPicture = null;
     });
   }
-/*
+
   takePicture(){
     Camera.getPicture({
       quality : 95,
       destinationType : Camera.DestinationType.DATA_URL,
-      sourceType : Camera.PictureSourceType.CAMERA,
+      sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
       allowEdit : true,
       encodingType: Camera.EncodingType.PNG,
       targetWidth: 500,
@@ -43,5 +43,5 @@ export class EventDetailPage {
       console.log("ERROR -> " + JSON.stringify(error));
     });
   }
-*/
+
 }
