@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ProfileData } from '../../providers/profile-data';
 import { AuthData } from '../../providers/auth-data';
 import { LoginPage } from '../login/login';
+import firebase from 'firebase';
 
 @Component({
   selector: 'page-profile',
@@ -12,12 +13,18 @@ export class ProfilePage {
   public userProfile: any;
   public birthDate: string;
   uid: any
+  fire_uid: any
+  current_user: any
   constructor(public nav: NavController, public profileData: ProfileData,
     public authData: AuthData, public alertCtrl: AlertController, public navParams: NavParams) {
+    console.log(' ProfilePage constructor')
+    this.fire_uid = firebase.auth().currentUser.uid;
+    this.current_user = firebase.auth().currentUser
     this.uid = this.navParams.get('uid');
-    console.log(' constructor HomePage UID ' + this.uid)
+    console.log(' constructor fire_uid ' + this.fire_uid)
 
-    this.profileData.getUserProfile().on('value', (data) => {
+    this.profileData.getUserProfile(this.fire_uid).on('value', (data) => {
+
       this.userProfile = data.val();
       this.birthDate = this.userProfile.birthDate;
     });
@@ -25,6 +32,7 @@ export class ProfilePage {
   }
 
   logOut() {
+    firebase.auth().signOut;
     this.authData.logoutUser().then(() => {
       this.nav.setRoot(LoginPage);
     });

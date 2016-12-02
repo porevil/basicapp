@@ -5,17 +5,28 @@ import firebase from 'firebase';
 @Injectable()
 export class ProfileData {
   // We'll use this to create a database reference to the userProfile node.
-  userProfile: any; 
+  userProfile: any;
 
   // We'll use this to create an auth reference to the logged in user.
-  currentUser: any; 
+  currentUser: any;
 
 
   constructor() {
     /**
     * Here we create the references I told you about 2 seconds ago 😛
-    */
+    
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        console.log('onAuthStateChanged true');
+        this.currentUser = firebase.auth().currentUser;
+      } else {
+        console.log('onAuthStateChanged false');
+        this.currentUser = firebase.auth().signOut;
+      }
+    });
+*/
     this.currentUser = firebase.auth().currentUser;
+    console.log("ProfileData constructor UID " + this.currentUser.uid);
     this.userProfile = firebase.database().ref('/userProfile');
 
   }
@@ -25,9 +36,22 @@ export class ProfileData {
   * This function returns a DATABASE reference to the userProfile/uid of the current user
   * and we'll use it to get the user profile info in our page.
   */
-  getUserProfile(): any {
-    console.log("getUserProfile UID "+this.currentUser.uid);
-    return this.userProfile.child(this.currentUser.uid);
+  getUserProfile(uid: any): any {
+
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        
+        this.currentUser = firebase.auth().currentUser;
+        console.log('onAuthStateChanged uid '+this.currentUser.uid);
+      } else {
+        console.log('onAuthStateChanged false');
+        this.currentUser = firebase.auth().signOut;
+      }
+    });
+
+    console.log("getUserProfile param UID " + uid);
+    console.log("getUserProfile userSession UID " + this.currentUser.uid);
+    return this.userProfile.child(uid);
   }
 
   /**
@@ -35,7 +59,7 @@ export class ProfileData {
   * for the current user as the firstName & lastName properties.
   */
   updateName(firstName: string, lastName: string): any {
-    console.log("updateName UID "+this.currentUser.uid);
+    console.log("updateName UID " + this.currentUser.uid);
     return this.userProfile.child(this.currentUser.uid).update({
       firstName: firstName,
       lastName: lastName,
@@ -46,7 +70,7 @@ export class ProfileData {
   * Pretty much the same as before, just that instead of saving the name it's saving the date of birth
   */
   updateDOB(birthDate: string): any {
-    console.log("updateDOB UID "+this.currentUser.uid);
+    console.log("updateDOB UID " + this.currentUser.uid);
     return this.userProfile.child(this.currentUser.uid).update({
       birthDate: birthDate,
     });
@@ -61,7 +85,7 @@ export class ProfileData {
   * real time database in the userProfile/uid node.
   */
   updateEmail(newEmail: string): any {
-    console.log("updateEmail UID "+this.currentUser.uid);
+    console.log("updateEmail UID " + this.currentUser.uid);
     this.currentUser.updateEmail(newEmail).then(() => {
       this.userProfile.child(this.currentUser.uid).update({
         email: newEmail
