@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class EventData {
   public currentUser: any;
   public eventList: any;
   public profilePictureRef: any;
+
+  activitylist: any;
+  activitylistObserver: any;
 
   constructor() {
 
@@ -14,6 +18,10 @@ export class EventData {
     console.log('EventData current user ' + this.currentUser)
     this.eventList = firebase.database().ref('userProfile/' + this.currentUser + '/eventList');
     console.log('EventData eventList ' + this.eventList)
+
+    this.activitylist = Observable.create(observer => {
+      this.activitylistObserver = observer;
+    });
 
   }
 
@@ -32,25 +40,27 @@ export class EventData {
 
   }
 
-  addGuest(guestName, eventId, eventPrice, guestPicture = null): any {
-    console.log('addGuest on UID ' + this.currentUser.uid);
+  addGuest(date_no, activity, eventId, eventPrice, guestPicture = null): any {
+    console.log('addGuest on eventId ' + eventId);
     return this.eventList.child(eventId).child('guestList').push({
-      guestName: guestName
+      date_no: date_no,
+      activity: activity
     }).then((newGuest) => {
-      this.eventList.child(eventId).transaction( (event) => {
+      this.eventList.child(eventId).transaction((event) => {
         event.revenue += eventPrice;
         return event;
       });
 
+      /*
       if (guestPicture != null) {
         this.profilePictureRef.child(newGuest.key).child('profilePicture.png')
-      .putString(guestPicture, 'base64', {contentType: 'image/png'})
-        .then((savedPicture) => {
-          this.eventList.child(eventId).child('guestList').child(newGuest.key).child('profilePicture')
-          .set(savedPicture.downloadURL);
-        });
+          .putString(guestPicture, 'base64', { contentType: 'image/png' })
+          .then((savedPicture) => {
+            this.eventList.child(eventId).child('guestList').child(newGuest.key).child('profilePicture')
+              .set(savedPicture.downloadURL);
+          });
       }
-      
+*/
 
     });
   }
@@ -63,6 +73,11 @@ export class EventData {
   getEventDetail(eventId): any {
     console.log('EventData eventId ' + eventId);
     return this.eventList.child(eventId);
+  }
+
+  getEventGuestList(eventId): any {
+    console.log('EventData getEventGuestList eventId ' + eventId);
+    return this.eventList.child(eventId).child('guestList');
   }
 
   authenUser() {

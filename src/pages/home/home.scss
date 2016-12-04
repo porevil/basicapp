@@ -2,4 +2,10 @@ page-home {
   button {
     margin-bottom: 32px;
   }
+  .button-fab {
+    z-index: 100;
+    top: 80px;
+    right: 0;
+  }
+
 }

@@ -8,21 +8,43 @@ import { Camera } from 'ionic-native';
   templateUrl: 'event-detail.html',
 })
 export class EventDetailPage {
+  currentEventGuest:any;
   currentEvent: any;
-  guestName: string = '';
+  date_no: string = '';
+  activity: string = '';
   guestPicture: any = null;
   constructor(public nav: NavController, public navParams: NavParams, public eventData: EventData) {
+    console.log(' Eventdetail constructor...')
     this.navParams = navParams;
 
+    // Get Journal
     this.eventData.getEventDetail(this.navParams.get('eventId')).on('value', (snapshot) => {
       this.currentEvent = snapshot.val();
+      
+    });
+
+    // Get Track
+    this.eventData.getEventGuestList(this.navParams.get('eventId')).on('value', (snapshotguest) => {
+      this.currentEventGuest = snapshotguest.val();
+      let rawList = [];
+      snapshotguest.forEach(guest => {
+        rawList.push(
+          {
+            date_no:guest.val().date_no,
+            activity:guest.val().activity
+          }
+        );
+      });
+      this.currentEventGuest = rawList;
     });
 
   }
 
-  addGuest(guestName) {
-    this.eventData.addGuest(guestName, this.currentEvent.id, this.currentEvent.price, this.guestPicture).then(() => {
-      this.guestName = '';
+  addGuest(date_no,activity) {
+    console.log('addGuest ' +date_no+' '+activity)
+    this.eventData.addGuest(date_no,activity, this.currentEvent.id, this.currentEvent.price, this.guestPicture).then(() => {
+      this.date_no = '';
+      this.activity = '';
       this.guestPicture = null;
     });
   }
