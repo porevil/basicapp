@@ -26,6 +26,7 @@ export class EventListPage {
       });
       this.eventList = rawList;
     });
+    
   }
 
   goToEventDetail(eventId){

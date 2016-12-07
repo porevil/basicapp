@@ -8,42 +8,37 @@ import { Camera } from 'ionic-native';
   templateUrl: 'event-detail.html',
 })
 export class EventDetailPage {
-  currentEventGuest:any;
   currentEvent: any;
-  date_no: string = '';
   activity: string = '';
   guestPicture: any = null;
+  eventDetailList:any;
+  eventId:any;
   constructor(public nav: NavController, public navParams: NavParams, public eventData: EventData) {
-    console.log(' Eventdetail constructor...')
     this.navParams = navParams;
-
-    // Get Journal
+    console.log('event detail id '+this.navParams.get('eventId'))
+    this.eventId = this.navParams.get('eventId')
     this.eventData.getEventDetail(this.navParams.get('eventId')).on('value', (snapshot) => {
       this.currentEvent = snapshot.val();
-      
     });
 
-    // Get Track
-    this.eventData.getEventGuestList(this.navParams.get('eventId')).on('value', (snapshotguest) => {
-      this.currentEventGuest = snapshotguest.val();
+    this.eventData.getEventDetailList(this.eventId).on('value', snapshot => {
+      console.log('getEventList')
       let rawList = [];
-      snapshotguest.forEach(guest => {
-        rawList.push(
-          {
-            date_no:guest.val().date_no,
-            activity:guest.val().activity
-          }
-        );
+      snapshot.forEach(snap => {
+        rawList.push({
+          id: snap.key,
+          activity: snap.val().activity
+        });
+        console.log('push '+snap.key+' name '+snap.val().name)
       });
-      this.currentEventGuest = rawList;
+      this.eventDetailList = rawList;
     });
+
 
   }
 
-  addGuest(date_no,activity) {
-    console.log('addGuest ' +date_no+' '+activity)
-    this.eventData.addGuest(date_no,activity, this.currentEvent.id, this.currentEvent.price, this.guestPicture).then(() => {
-      this.date_no = '';
+  addGuest(activity) {
+    this.eventData.addGuest(activity, this.currentEvent.id, this.currentEvent.price, this.guestPicture).then(() => {
       this.activity = '';
       this.guestPicture = null;
     });
