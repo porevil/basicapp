@@ -15,7 +15,7 @@ export class EventData {
     console.log('EventData current user ' + this.currentUser)
     this.eventList = firebase.database().ref('userProfile/' + this.currentUser + '/eventList');
     console.log('EventData eventList ' + this.eventList)
-    
+
   }
 
   createEvent(eventName: string, eventDate: string, eventPrice: number, eventCost: number): any {
@@ -33,27 +33,30 @@ export class EventData {
 
   }
 
-  addGuest(activity, eventId, eventPrice, guestPicture = null): any {
-    console.log('addGuest on UID ' + this.currentUser.uid);
-    return this.eventList.child(eventId).child('activityList').push({
-      activitiy: activity
+  addActivity(eventId, dateKey,activity, time): any {
+    console.log('addActivity on UID ' + this.currentUser.uid+' update on dateKey '+dateKey);
+    return this.eventList.child(eventId).child('activityList').child('dateList').child(dateKey).update({
+      activity: activity,
+      time: time
     }).then((newActitity) => {
-      this.eventList.child(eventId).transaction( (event) => {
-        event.revenue += eventPrice;
+      this.eventList.child(eventId).transaction((event) => {
+        //event.time = time;
         return event;
       });
 
-      if (guestPicture != null) {
-        this.profilePictureRef.child(newActitity.key).child('profilePicture.png')
-      .putString(guestPicture, 'base64', {contentType: 'image/png'})
-        .then((savedPicture) => {
-          this.eventList.child(eventId).child('guestList').child(newActitity.key).child('profilePicture')
-          .set(savedPicture.downloadURL);
-        });
-      }
-      
-
     });
+  }
+
+  addFirstActivity(eventId): any {
+    console.log('addFirstActivity on UID ' + this.currentUser.uid);
+    return this.eventList.child(eventId).child('activityList').child('dateList').push({
+      day: 1,
+    }).then((newActitity) => {
+      //this.eventList.child(eventId).child('activityList').child('dateList').child('id').set(newActitity.key);
+      console.log('add child of activityList with key : ' + newActitity.key);
+      return newActitity.key;
+    });
+    
   }
 
   getEventList(): any {
@@ -62,13 +65,13 @@ export class EventData {
   }
 
   getEventDetail(eventId): any {
-    console.log('EventData eventId ' + eventId);
+    console.log('getEventDetail eventId ' + eventId);
     return this.eventList.child(eventId);
   }
 
   getEventDetailList(eventId): any {
-    console.log('EventData eventId ' + eventId);
-    return this.eventList.child(eventId).child('guestList');
+    console.log('getEventDetailList eventId ' + eventId);
+    return this.eventList.child(eventId).child('activityList').child('dateList');
   }
 
   authenUser() {

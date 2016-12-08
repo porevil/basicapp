@@ -19636,6 +19636,15 @@ sub {
   }
 }
 
+page-dashboard ion-slide {
+  background-color: #32db64;
+}
+
+page-dashboard ion-slide img {
+  height: 85vh !important;
+  width: auto !important;
+}
+
 page-event-detail ion-card-header {
   text-align: center;
 }
@@ -19654,12 +19663,6 @@ page-event-detail .no-profit {
 
 page-home button {
   margin-bottom: 32px;
-}
-
-page-home .button-fab {
-  z-index: 100;
-  top: 80px;
-  right: 0;
 }
 
 page-login form {

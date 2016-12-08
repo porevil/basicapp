@@ -10,6 +10,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { SignupPage } from '../pages/signup/signup';
 import { DashboardPage } from '../pages/dashboard/dashboard';
+import { ActivityPage } from '../pages/activity/activity';
 // Import providers
 import { AuthData } from '../providers/auth-data';
 import { EventData } from '../providers/event-data';
@@ -27,7 +28,8 @@ import { ProfileData } from '../providers/profile-data';
     ProfilePage,
     ResetPasswordPage,
     SignupPage,
-    DashboardPage
+    DashboardPage,
+    ActivityPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -43,7 +45,8 @@ import { ProfileData } from '../providers/profile-data';
     ProfilePage,
     ResetPasswordPage,
     SignupPage,
-    DashboardPage
+    DashboardPage,
+    ActivityPage
   ],
   providers: [AuthData,
     EventData,
