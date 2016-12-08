@@ -19656,6 +19656,12 @@ page-home button {
   margin-bottom: 32px;
 }
 
+page-home .button-fab {
+  z-index: 100;
+  top: 80px;
+  right: 0;
+}
+
 page-login form {
   margin-bottom: 32px;
 }

@@ -9,20 +9,37 @@ import { Camera } from 'ionic-native';
 })
 export class EventDetailPage {
   currentEvent: any;
-  guestName: string = '';
+  activity: string = '';
   guestPicture: any = null;
+  eventDetailList:any;
+  eventId:any;
   constructor(public nav: NavController, public navParams: NavParams, public eventData: EventData) {
     this.navParams = navParams;
-
+    console.log('event detail id '+this.navParams.get('eventId'))
+    this.eventId = this.navParams.get('eventId')
     this.eventData.getEventDetail(this.navParams.get('eventId')).on('value', (snapshot) => {
       this.currentEvent = snapshot.val();
     });
 
+    this.eventData.getEventDetailList(this.eventId).on('value', snapshot => {
+      console.log('getEventList')
+      let rawList = [];
+      snapshot.forEach(snap => {
+        rawList.push({
+          id: snap.key,
+          activity: snap.val().activity
+        });
+        console.log('push '+snap.key+' name '+snap.val().name)
+      });
+      this.eventDetailList = rawList;
+    });
+
+
   }
 
-  addGuest(guestName) {
-    this.eventData.addGuest(guestName, this.currentEvent.id, this.currentEvent.price, this.guestPicture).then(() => {
-      this.guestName = '';
+  addGuest(activity) {
+    this.eventData.addGuest(activity, this.currentEvent.id, this.currentEvent.price, this.guestPicture).then(() => {
+      this.activity = '';
       this.guestPicture = null;
     });
   }

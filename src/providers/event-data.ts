@@ -6,6 +6,7 @@ export class EventData {
   public currentUser: any;
   public eventList: any;
   public profilePictureRef: any;
+  public eventDetailList: any;
 
   constructor() {
 
@@ -14,7 +15,7 @@ export class EventData {
     console.log('EventData current user ' + this.currentUser)
     this.eventList = firebase.database().ref('userProfile/' + this.currentUser + '/eventList');
     console.log('EventData eventList ' + this.eventList)
-
+    
   }
 
   createEvent(eventName: string, eventDate: string, eventPrice: number, eventCost: number): any {
@@ -32,21 +33,21 @@ export class EventData {
 
   }
 
-  addGuest(guestName, eventId, eventPrice, guestPicture = null): any {
+  addGuest(activity, eventId, eventPrice, guestPicture = null): any {
     console.log('addGuest on UID ' + this.currentUser.uid);
-    return this.eventList.child(eventId).child('guestList').push({
-      guestName: guestName
-    }).then((newGuest) => {
+    return this.eventList.child(eventId).child('activityList').push({
+      activitiy: activity
+    }).then((newActitity) => {
       this.eventList.child(eventId).transaction( (event) => {
         event.revenue += eventPrice;
         return event;
       });
 
       if (guestPicture != null) {
-        this.profilePictureRef.child(newGuest.key).child('profilePicture.png')
+        this.profilePictureRef.child(newActitity.key).child('profilePicture.png')
       .putString(guestPicture, 'base64', {contentType: 'image/png'})
         .then((savedPicture) => {
-          this.eventList.child(eventId).child('guestList').child(newGuest.key).child('profilePicture')
+          this.eventList.child(eventId).child('guestList').child(newActitity.key).child('profilePicture')
           .set(savedPicture.downloadURL);
         });
       }
@@ -63,6 +64,11 @@ export class EventData {
   getEventDetail(eventId): any {
     console.log('EventData eventId ' + eventId);
     return this.eventList.child(eventId);
+  }
+
+  getEventDetailList(eventId): any {
+    console.log('EventData eventId ' + eventId);
+    return this.eventList.child(eventId).child('guestList');
   }
 
   authenUser() {

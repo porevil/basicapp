@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Home Page
+      My Journey
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="goToProfile()">
@@ -12,11 +12,22 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button block color="primary" (click)="goToCreate()">
-    Create a new Event
-  </button>
 
-  <button ion-button block color="primary" (click)="goToList()">
+
+  <ion-fab  right name="add" style="z-index:100;bottom:50px">
+    <button ion-fab mini (click)="goToCreate()" ><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+
+  <!--button ion-button block color="primary" (click)="goToList()">
     See your events
-  </button>
+  </button-->
+
+    <ion-list>
+    <ion-item *ngFor="let event of eventList" (click)="goToDashBoard(event.id)">
+      <h2>{{event?.name}}</h2>
+      <p>Ticket: <strong>${{event?.price}}</strong></p>
+      <p>Date: <strong>{{event?.date}}</strong></p>
+    </ion-item>
+  </ion-list>
+
 </ion-content>
