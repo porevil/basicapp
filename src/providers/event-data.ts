@@ -4,7 +4,7 @@ import firebase from 'firebase';
 @Injectable()
 export class EventData {
   public currentUser: any;
-  public eventList: any;
+  public journeyList: any;
   public profilePictureRef: any;
   public eventDetailList: any;
 
@@ -13,33 +13,32 @@ export class EventData {
 
     this.authenUser()
     console.log('EventData current user ' + this.currentUser)
-    this.eventList = firebase.database().ref('userProfile/' + this.currentUser + '/eventList');
-    console.log('EventData eventList ' + this.eventList)
+    this.journeyList = firebase.database().ref('userProfile/' + this.currentUser + '/journeys');
+    console.log('EventData journeyList ' + this.journeyList)
 
   }
+createJourney(event_name: string, from_location: string, to_location: string,
+   start_date: string, end_date: string){
 
-  createEvent(eventName: string, eventDate: string, eventPrice: number, eventCost: number): any {
-
-    //this.authenUser()
-    return this.eventList.push({
-      name: eventName,
-      date: eventDate,
-      price: eventPrice * 1,
-      cost: eventCost * 1,
-      revenue: eventCost * -1
+    return this.journeyList.push({
+      event_name: event_name,
+      from_location: from_location,
+      to_location: to_location,
+      start_date: start_date,
+      end_date: end_date
     }).then(newEvent => {
-      this.eventList.child(newEvent.key).child('id').set(newEvent.key);
+      this.journeyList.child(newEvent.key).child('id').set(newEvent.key);
     });
 
   }
 
-  addActivity(eventId, dateKey,activity, time): any {
-    console.log('addActivity on UID ' + this.currentUser.uid+' update on dateKey '+dateKey);
-    return this.eventList.child(eventId).child('activityList').child('dateList').child(dateKey).update({
+  updateActivity(journey_id, dateKey, activity, time): any {
+    console.log('updateActivity on UID ' + this.currentUser.uid + ' update on dateKey ' + dateKey);
+    return this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).update({
       activity: activity,
       time: time
     }).then((newActitity) => {
-      this.eventList.child(eventId).transaction((event) => {
+      this.journeyList.child(journey_id).transaction((event) => {
         //event.time = time;
         return event;
       });
@@ -47,31 +46,51 @@ export class EventData {
     });
   }
 
-  addFirstActivity(eventId): any {
+
+  addActivity(journey_id, dateKey, activity, time): any {
+    console.log('addActivity on UID ' + this.currentUser.uid + ' update on dateKey ' + dateKey);
+    return this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('activities').push({
+      activity: activity,
+      time: time
+    }).then((newActitity) => {
+      this.journeyList.child(journey_id).transaction((event) => {
+        //event.time = time;
+        return event;
+      });
+
+    });
+  }
+
+  addFirstActivity(journey_id): any {
     console.log('addFirstActivity on UID ' + this.currentUser.uid);
-    return this.eventList.child(eventId).child('activityList').child('dateList').push({
+    return this.journeyList.child(journey_id).child('day_plans').child('plans').push({
       day: 1,
     }).then((newActitity) => {
-      //this.eventList.child(eventId).child('activityList').child('dateList').child('id').set(newActitity.key);
-      console.log('add child of activityList with key : ' + newActitity.key);
+      this.journeyList.child(journey_id).child('day_plans').child('plans').child(newActitity.key).child('id').set(newActitity.key);
+      console.log('add child of day_plans with key : ' + newActitity.key);
       return newActitity.key;
     });
-    
+
   }
 
-  getEventList(): any {
-    console.log('getEventList');
-    return this.eventList;
+  getJourneyList(): any {
+    console.log('getJourneyList');
+    return this.journeyList;
   }
 
-  getEventDetail(eventId): any {
-    console.log('getEventDetail eventId ' + eventId);
-    return this.eventList.child(eventId);
+  getJourneyById(journey_id): any {
+    console.log('getJourneyById ' + journey_id);
+    return this.journeyList.child(journey_id);
   }
 
-  getEventDetailList(eventId): any {
-    console.log('getEventDetailList eventId ' + eventId);
-    return this.eventList.child(eventId).child('activityList').child('dateList');
+  getPlanList(journey_id): any {
+    console.log('getPlanList by eventId ' + journey_id);
+    return this.journeyList.child(journey_id).child('day_plans').child('plans');
+  }
+
+  getPlanActivitys(journey_id,activity_id): any {
+    console.log('getPlanActivitys eventId ' + journey_id +' activity_id '+activity_id);
+    return this.journeyList.child(journey_id).child('day_plans').child('plans').child(activity_id).child('activities');;
   }
 
   authenUser() {
@@ -80,9 +99,9 @@ export class EventData {
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log('EventData onAuthStateChanged get new eventList');
+        console.log('EventData onAuthStateChanged get new journeyList');
         this.currentUser = firebase.auth().currentUser.uid;
-        this.eventList = firebase.database().ref('userProfile/' + this.currentUser + '/eventList');
+        this.journeyList = firebase.database().ref('userProfile/' + this.currentUser + '/journeys');
       } else {
         console.log('EventData onAuthStateChanged false' + this.currentUser);
         this.currentUser = firebase.auth().signOut;

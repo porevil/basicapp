@@ -14,19 +14,22 @@
 <ion-content padding>
 
 
-  <ion-fab  right name="add" style="z-index:100;bottom:50px">
-    <button ion-fab mini (click)="goToCreate()" ><ion-icon name="add"></ion-icon></button>
+  <ion-fab right name="add" style="z-index:100;bottom:50px">
+    <button ion-fab mini (click)="createNewJourney()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 
   <!--button ion-button block color="primary" (click)="goToList()">
     See your events
   </button-->
+ 
+  <ion-list>
+    <ion-item *ngFor="let journey of journeys" (click)="goToDashBoard(journey.id,journey.event_name)">
+      <h2>{{journey?.event_name}}</h2>
+      <p>From <strong>${{journey?.from_location}}</strong> To 
+      <strong>{{journey?.to_location}}</strong></p>
+      Start <p><strong>${{journey?.start_date}}</strong></p>
+      End <p><strong>{{journey?.end_date}}</strong></p>
 
-    <ion-list>
-    <ion-item *ngFor="let event of eventList" (click)="goToDashBoard(event.id)">
-      <h2>{{event?.name}}</h2>
-      <p>Ticket: <strong>${{event?.price}}</strong></p>
-      <p>Date: <strong>{{event?.date}}</strong></p>
     </ion-item>
   </ion-list>
 

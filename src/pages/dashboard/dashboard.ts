@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { EventDetailPage } from '../event-detail/event-detail';
-
+//import { EventDetailPage } from '../event-detail/event-detail';
+import { DayPlansPage } from '../dayplans/dayplans';
 /*
   Generated class for the Dashboard page.
 
@@ -13,9 +13,11 @@ import { EventDetailPage } from '../event-detail/event-detail';
   templateUrl: 'dashboard.html'
 })
 export class DashboardPage {
-  eventId:any;
+  journeyId:any;
+  journeyName:string;
   constructor(public nav: NavController,public navParams: NavParams) {
-    this.eventId = this.navParams.get('eventId');
+    this.journeyId = this.navParams.get('journeyId');
+    this.journeyName = this.navParams.get('journeyName');
   }
   
 
@@ -23,8 +25,9 @@ export class DashboardPage {
     console.log('Hello Dashboard Page');
   }
   gotoDayPlans(){
-    this.nav.push(EventDetailPage,{
-      eventId: this.eventId,
+    this.nav.push(DayPlansPage,{
+      journeyId: this.journeyId,
+      journeyName: this.journeyName
     });
   }
 }

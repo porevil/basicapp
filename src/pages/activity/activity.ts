@@ -33,7 +33,7 @@ export class ActivityPage {
 
     this.eventId = this.navParams.get('eventId')
     console.log('ActivityPage eventId ' + this.eventId)
-    this.eventData.getEventDetailList(this.navParams.get('eventId')).on('value', (snapshot) => {
+    this.eventData.getPlanList(this.navParams.get('eventId')).on('value', (snapshot) => {
       /*
       snapshot.forEach(snap => {
         this.firstDateCreated = true;
@@ -73,7 +73,7 @@ export class ActivityPage {
         this.time = '';
       });
     } else {
-      this.eventData.addActivity(this.eventId, this.currentDateKey, activity, time).then(() => {
+      this.eventData.updateActivity(this.eventId, this.currentDateKey, activity, time).then(() => {
         this.activity = '';
         this.time = '';
       });

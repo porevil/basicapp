@@ -12,10 +12,11 @@ export class EventCreatePage {
     this.nav = nav;
     this.eventData = eventData;
   }
-
-  createEvent(eventName: string, eventDate: string,
-    eventPrice: number, eventCost: number) {
-    this.eventData.createEvent(eventName, eventDate, eventPrice, eventCost).then(() => {
+  
+  createJourney(event_name: string, from_location: string, to_location: string,
+   start_date: string, end_date: string){
+  
+    this.eventData.createJourney(event_name, from_location, to_location, start_date, end_date).then(() => {
       this.nav.pop();
     });
   }

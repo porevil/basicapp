@@ -13,25 +13,30 @@
 <ion-content padding>
   <ion-item>
     <ion-label stacked>Event Name</ion-label>
-    <ion-input [(ngModel)]="eventName" type="text" placeholder="What's your event's name?"></ion-input>
+    <ion-input [(ngModel)]="event_name" type="text" placeholder="Your Journey Name"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label stacked>Price</ion-label>
-    <ion-input [(ngModel)]="eventPrice" type="number" placeholder="How much will guests pay?"></ion-input>
+    <ion-label stacked>From</ion-label>
+    <ion-input [(ngModel)]="from_location" type="text" placeholder="Start your journey"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label stacked>Cost</ion-label>
-    <ion-input [(ngModel)]="eventCost" type="number" placeholder="How much are you spending?"></ion-input>
+    <ion-label stacked>To</ion-label>
+    <ion-input [(ngModel)]="to_location" type="text" placeholder="End your journey"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label>Event Date</ion-label>
-    <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY" [(ngModel)]="eventDate"></ion-datetime>
+    <ion-label>Start Date</ion-label>
+    <ion-datetime displayFormat="D MMM, YY" min="2016" max="2020-10-31" pickerFormat="DD MMM YYYY" [(ngModel)]="start_date"></ion-datetime>
   </ion-item>
 
-  <button ion-button block (click)="createEvent(eventName, eventDate, eventPrice, eventCost)">
+  <ion-item>
+    <ion-label>End Date</ion-label>
+    <ion-datetime displayFormat="D MMM, YY" min="2016" max="2020-10-31" pickerFormat="DD MMM YYYY" [(ngModel)]="end_date"></ion-datetime>
+  </ion-item>
+
+  <button ion-button block (click)="createJourney(event_name, from_location, to_location, start_date, end_date)">
     Create Event
   </button>
 </ion-content>

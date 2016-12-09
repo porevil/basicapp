@@ -19645,20 +19645,54 @@ page-dashboard ion-slide img {
   width: auto !important;
 }
 
-page-event-detail ion-card-header {
+page-day-activity .home-item {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #282828;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+page-day-activity .secondary-detail {
+  display: block;
+  color: #cecece;
+  font-weight: 400;
+  margin-top: 10px;
+}
+
+page-dayplans ion-card-header {
   text-align: center;
 }
 
-page-event-detail .add-guest-form button {
+page-dayplans .add-guest-form button {
   margin-top: 16px;
 }
 
-page-event-detail .profitable {
+page-dayplans .profitable {
   color: #22BB22;
 }
 
-page-event-detail .no-profit {
+page-dayplans .no-profit {
   color: #FF0000;
+}
+
+page-dayplans ion-item-sliding {
+  margin: 5px;
+}
+
+page-dayplans .home-item {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #282828;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+page-dayplans .secondary-detail {
+  display: block;
+  color: #cecece;
+  font-weight: 400;
+  margin-top: 10px;
 }
 
 page-home button {

@@ -7,32 +7,40 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Journey Dashboard</ion-title>
+    <ion-title>Dashboard</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      {{journeyName}} is begin here...
+    </ion-card-header>
+    <!--ion-card-content>
+      <p>Ticket: <strong>${{currentEvent?.price}}</strong></p>
+      <p>Date: <strong>{{currentEvent?.date}}</strong></p>
+    </ion-card-content-->
+  </ion-card>
+  <ion-slides style="width: 700px;height: 200px;">
 
-<ion-slides style="width: 700px;height: 200px;">
+    <ion-slide style="width: 500px;height: 200px;">
+      <h2>Day 1</h2>
+    </ion-slide>
 
-  <ion-slide style="width: 500px;height: 200px;">
-    <h2>Day 1</h2>
-  </ion-slide>
+    <ion-slide style="width: 500px;height: 200px;">
+      <h2>Day 2</h2>
+    </ion-slide>
 
-  <ion-slide style="width: 500px;height: 200px;">
-    <h2>Day 2</h2>
-  </ion-slide>
+    <ion-slide style="width: 500px;height: 200px;">
+      <h2>Day 3</h2>
+    </ion-slide>
 
-  <ion-slide style="width: 500px;height: 200px;">
-    <h2>Day 3</h2>
-  </ion-slide>
+  </ion-slides>
 
-</ion-slides>
-
-<button ion-button round outline (click)="gotoDayPlans()">Day Plans</button>
-<button ion-button round outline>Reservation</button>
-<button ion-button round outline>Todo List</button>
+  <button ion-button round outline (click)="gotoDayPlans()">Day Plans</button>
+  <button ion-button round outline>Reservation</button>
+  <button ion-button round outline>Todo List</button>
 
 </ion-content>

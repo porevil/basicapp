@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ProfilePage } from '../profile/profile';
 import { EventCreatePage } from '../event-create/event-create';
-import { EventListPage } from '../event-list/event-list';
+import { JourneysPage } from '../journeys/journeys';
 import { EventData } from '../../providers/event-data';
-import { EventDetailPage } from '../event-detail/event-detail';
+import { DayPlansPage } from '../dayplans/dayplans';
 import { DashboardPage } from '../dashboard/dashboard';
 
 @Component({
@@ -15,26 +15,28 @@ import { DashboardPage } from '../dashboard/dashboard';
 
 export class HomePage {
   uid: any;
-  public eventList: any;
+  public journeys: any;
 
   constructor(public nav: NavController, public navParams: NavParams, public eventData: EventData) {
     this.uid = this.navParams.get('uid');
     console.log(' constructor HomePage UID ' + this.uid)
     this.nav = nav;
 
-    this.eventData.getEventList().on('value', snapshot => {
-      console.log('getEventList')
+    this.eventData.getJourneyList().on('value', snapshot => {
+      console.log('getJourneys')
       let rawList = [];
       snapshot.forEach(snap => {
         rawList.push({
           id: snap.key,
-          name: snap.val().name,
-          price: snap.val().price,
-          date: snap.val().date,
+          event_name: snap.val().event_name,
+          from_location: snap.val().from_location,
+          to_location: snap.val().to_location,
+          start_date: snap.val().start_date,
+          end_date: snap.val().end_date,
         });
         console.log('push '+snap.key+' name '+snap.val().name)
       });
-      this.eventList = rawList;
+      this.journeys = rawList;
     });
 
   }
@@ -43,24 +45,25 @@ export class HomePage {
     this.nav.push(ProfilePage, { uid: this.uid });
   }
 
-  goToCreate() {
+  createNewJourney() {
     this.nav.push(EventCreatePage, { uid: this.uid });
   }
 
   goToList() {
-    this.nav.push(EventListPage, { uid: this.uid });
+    this.nav.push(JourneysPage, { uid: this.uid });
   }
 
   goToEventDetail(eventId) {
-    this.nav.push(EventDetailPage, {
+    this.nav.push(DayPlansPage, {
       eventId: eventId,
     });
   }
 
-  goToDashBoard(eventId) {
-    console.log(' goto dashboard '+eventId)
+  goToDashBoard(journeyId,journeyName) {
+    console.log(' goto dashboard '+journeyId)
     this.nav.push(DashboardPage, {
-      eventId: eventId,
+      journeyId: journeyId,
+      journeyName : journeyName
     });
   }
 }
