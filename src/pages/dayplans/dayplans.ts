@@ -14,7 +14,7 @@ export class DayPlansPage {
   guestPicture: any = null;
   eventDetailList: any;
   journeyId: any;
-
+  dayActivitiesList: any;
   constructor(public nav: NavController, public navParams: NavParams, public eventData: EventData) {
     this.navParams = navParams;
     this.journeyId = this.navParams.get('journeyId')
@@ -58,10 +58,10 @@ export class DayPlansPage {
         });
         console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
       });
-      this.eventDetailList = rawList;
+      this.dayActivitiesList = rawList;
     })
 
-    this.nav.push(DayActivityPage,{eventDetailList:this.eventDetailList});
+    this.nav.push(DayActivityPage,{dayActivitiesList:this.dayActivitiesList});
   }
 
   /*

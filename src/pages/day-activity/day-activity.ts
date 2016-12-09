@@ -15,13 +15,13 @@ export class DayActivityPage {
 
   currentEvent: any;
   activity: string = '';
-  eventDetailList: any;
+  dayActivitiesList: any;
   eventId: any;
 
   constructor(public nav: NavController, public navParams: NavParams, public eventData: EventData) {
     this.navParams = navParams;
     console.log('DayActivityPage')
-    this.eventDetailList = this.navParams.get('eventDetailList')
+    this.dayActivitiesList = this.navParams.get('dayActivitiesList')
 
 
 
