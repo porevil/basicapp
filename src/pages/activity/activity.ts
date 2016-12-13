@@ -21,7 +21,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class ActivityPage {
   public activityForm;
   currentEvent: any;
-  eventId: any;
+  journeyId: any;
+  planId: any;
   activity: any;
   time: any;
   currentDateKey: any;
@@ -31,32 +32,65 @@ export class ActivityPage {
     public navParams: NavParams, public eventData: EventData) {
 
 
-    this.eventId = this.navParams.get('eventId')
-    console.log('ActivityPage eventId ' + this.eventId)
-    this.eventData.getPlanList(this.navParams.get('eventId')).on('value', (snapshot) => {
-      /*
-      snapshot.forEach(snap => {
-        this.firstDateCreated = true;
-        console.log('eventDetail key ' + snap.key)
-      });
-      */
-      if (this.dateListCreated) {
-        console.log('dateListCreated ' + this.dateListCreated);
-      } else {
-        this.dateListCreated = true;
-        console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
-        this.eventData.addFirstActivity(this.eventId).then((new_key) => {
-          console.log('new_key : ' + new_key)
-          this.currentDateKey = new_key
-          this.activity = '';
-          this.time = '';
+    this.journeyId = this.navParams.get('journey_id')
+    this.planId = this.navParams.get('plan_id')
+
+    if (this.planId) {
+      console.log(' Edit plan ')
+            console.log(' New plan of journeyId ' + this.journeyId + ' planId ' + this.planId)
+      this.eventData.getPlanList(this.journeyId).on('value', (snapshot) => {
+        /*
+        snapshot.forEach(snap => {
+          this.firstDateCreated = true;
+          console.log('eventDetail key ' + snap.key)
         });
+        */
 
-      }
+        if (this.dateListCreated) {
+          console.log('dateListCreated ' + this.dateListCreated);
+        } else {
+          this.dateListCreated = true;
+          console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
+          this.eventData.addFirstActivity(this.journeyId).then((new_key) => {
+            console.log('new_key : ' + new_key)
+            this.currentDateKey = new_key
+            this.activity = '';
+            this.time = '';
+          });
 
-    }, (error) => {
-      console.log('getEventDetail error ')
-    });
+        }
+
+      }, (error) => {
+        console.log('getEventDetail error ')
+      });
+    } else {
+      console.log(' New plan of journeyId ' + this.journeyId + ' planId ' + this.planId)
+      this.eventData.getPlanList(this.journeyId).on('value', (snapshot) => {
+        /*
+        snapshot.forEach(snap => {
+          this.firstDateCreated = true;
+          console.log('eventDetail key ' + snap.key)
+        });
+        */
+
+        if (this.dateListCreated) {
+          console.log('dateListCreated ' + this.dateListCreated);
+        } else {
+          this.dateListCreated = true;
+          console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
+          this.eventData.addFirstActivity(this.journeyId).then((new_key) => {
+            console.log('new_key : ' + new_key)
+            this.currentDateKey = new_key
+            this.activity = '';
+            this.time = '';
+          });
+
+        }
+
+      }, (error) => {
+        console.log('getEventDetail error ')
+      });
+    }
 
     this.activityForm = formBuilder.group({
       activity: ['', Validators.compose([Validators.required])],
@@ -66,14 +100,15 @@ export class ActivityPage {
   }
 
   addActivity(activity, time) {
-    console.log('addActivity on eventId : ' + this.eventId + ' with ' + activity)
+    console.log('addActivity on eventId : ' + this.journeyId + ' with ' + activity)
+    console.log('dateListCreated : ' + this.dateListCreated)
     if (this.dateListCreated) {
-      this.eventData.addActivity(this.eventId, this.currentDateKey, activity, time).then(() => {
+      this.eventData.addActivity(this.journeyId, this.currentDateKey, activity, time).then(() => {
         this.activity = '';
         this.time = '';
       });
     } else {
-      this.eventData.updateActivity(this.eventId, this.currentDateKey, activity, time).then(() => {
+      this.eventData.updateActivity(this.journeyId, this.currentDateKey, activity, time).then(() => {
         this.activity = '';
         this.time = '';
       });

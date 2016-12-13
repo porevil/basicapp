@@ -31,10 +31,12 @@
 
   <ion-card class="add-guest-form">
     <ion-card-header>
-      Activity[dayplans]
+      Activity[dayplans] : {{journeyId}}
     </ion-card-header>
     <ion-card-content>
-      <!--ion-list no-lines>
+    </ion-card-content>
+  </ion-card>
+  <!--ion-list no-lines>
         <ion-item>
           <ion-label stacked>activity </ion-label>
           <ion-input [(ngModel)]="activity" type="text" placeholder="What's your activity?"></ion-input>
@@ -45,30 +47,36 @@
 
       </ion-list-->
 
-      <ion-list no-lines>
-        <ion-item-sliding *ngFor="let eventDetail of eventDetailList">
-          <button ion-item (click)="viewActivities(eventDetail.id)" class="home-item">
-          <h2>{{eventDetail?.id}}</h2>
-          <span class="secondary-detail">activity: {{eventDetail.activity}}</span>
+  <ion-list no-lines>
+
+    <ion-item-sliding *ngFor="let eventDetail of eventDetailList">
+
+      <button ion-item (click)="viewActivities(eventDetail.id)" class="home-item">
+          {{eventDetail?.id}}
+          activity: {{eventDetail.activity}}
           </button>
 
-          <ion-item-options>
+      <ion-item-options>
 
-            <button ion-button icon-only color="light" (click)="renameChecklist(checklist)">
-			<ion-icon name="clipboard"></ion-icon> Edit
-		    </button>
+        <button ion-button icon-only color="light" (click)="editPlans(eventDetail.id)">
+			        <ion-icon name="clipboard"></ion-icon> Edit
+		        </button>
 
-            <button ion-button icon-only color="danger" (click)="removeChecklist(checklist)">
-			<ion-icon name="trash"></ion-icon> Delete
-		</button>
+        <button ion-button icon-only color="danger" (click)="removePlans(eventDetail.id)">
+              <ion-icon name="trash"></ion-icon> Delete
+            </button>
 
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
+      </ion-item-options>
+    </ion-item-sliding>
 
-    </ion-card-content>
-  </ion-card>
+  </ion-list>
+
+
+
+
+
   <ion-fab right name="add" style="z-index:100;bottom:50px">
     <button ion-fab mini (click)="openActivityPage(currentEvent.id)"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
+
 </ion-content>

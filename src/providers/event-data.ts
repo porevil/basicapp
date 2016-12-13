@@ -17,8 +17,8 @@ export class EventData {
     console.log('EventData journeyList ' + this.journeyList)
 
   }
-createJourney(event_name: string, from_location: string, to_location: string,
-   start_date: string, end_date: string){
+  createJourney(event_name: string, from_location: string, to_location: string,
+    start_date: string, end_date: string) {
 
     return this.journeyList.push({
       event_name: event_name,
@@ -46,6 +46,18 @@ createJourney(event_name: string, from_location: string, to_location: string,
     });
   }
 
+  // update all activities under plans
+  updateActivities(journeyId, planId, activities): any {
+    console.log('updateActivity on journeyId ' + journeyId + ' planId ' + planId);
+    activities.forEach(element => {
+      console.log(' updateActivities : '+element.id);
+      this.journeyList.child(journeyId).child('day_plans').child('plans').child(planId).child('activities').child(element.id).update({
+        activity: element.activity,
+        time: element.time
+      });
+    });
+    
+  }
 
   addActivity(journey_id, dateKey, activity, time): any {
     console.log('addActivity on UID ' + this.currentUser.uid + ' update on dateKey ' + dateKey);
@@ -88,9 +100,14 @@ createJourney(event_name: string, from_location: string, to_location: string,
     return this.journeyList.child(journey_id).child('day_plans').child('plans');
   }
 
-  getPlanActivitys(journey_id,activity_id): any {
-    console.log('getPlanActivitys eventId ' + journey_id +' activity_id '+activity_id);
-    return this.journeyList.child(journey_id).child('day_plans').child('plans').child(activity_id).child('activities');;
+  getPlanActivitys(journey_id, activity_id): any {
+    console.log('getPlanActivitys eventId ' + journey_id + ' activity_id ' + activity_id);
+    return this.journeyList.child(journey_id).child('day_plans').child('plans').child(activity_id).child('activities');
+  }
+
+  removePlans(journey_id, activity_id): any {
+    console.log('removePlans journey_id ' + journey_id + ' activity_id ' + activity_id);
+    return this.journeyList.child(journey_id).child('day_plans').child('plans').child(activity_id).remove();
   }
 
   authenUser() {

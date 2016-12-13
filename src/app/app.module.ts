@@ -12,6 +12,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { ActivityPage } from '../pages/activity/activity';
 import { DayActivityPage } from '../pages/day-activity/day-activity';
+import { ViewActivitiesPage } from '../pages/view-activities/view-activities';
 // Import providers
 import { AuthData } from '../providers/auth-data';
 import { EventData } from '../providers/event-data';
@@ -31,7 +32,8 @@ import { ProfileData } from '../providers/profile-data';
     SignupPage,
     DashboardPage,
     ActivityPage,
-    DayActivityPage
+    DayActivityPage,
+    ViewActivitiesPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -49,7 +51,8 @@ import { ProfileData } from '../providers/profile-data';
     SignupPage,
     DashboardPage,
     ActivityPage,
-    DayActivityPage
+    DayActivityPage,
+    ViewActivitiesPage
   ],
   providers: [AuthData,
     EventData,

@@ -4,6 +4,8 @@ import { EventData } from '../../providers/event-data';
 import { Camera } from 'ionic-native';
 import { ActivityPage } from '../activity/activity';
 import { DayActivityPage } from '../day-activity/day-activity';
+import { ViewActivitiesPage } from '../view-activities/view-activities';
+
 @Component({
   selector: 'page-dayplans',
   templateUrl: 'dayplans.html',
@@ -14,10 +16,12 @@ export class DayPlansPage {
   guestPicture: any = null;
   eventDetailList: any;
   journeyId: any;
+  planId: any;
   dayActivitiesList: any;
   constructor(public nav: NavController, public navParams: NavParams, public eventData: EventData) {
     this.navParams = navParams;
     this.journeyId = this.navParams.get('journeyId')
+
     console.log('DayPlansPage construct by journeyId ' + this.journeyId)
     this.eventData.getJourneyById(this.journeyId).on('value', (snapshot) => {
       this.currentEvent = snapshot.val();
@@ -41,7 +45,30 @@ export class DayPlansPage {
   }
 
   openActivityPage(eventId) {
-    this.nav.push(ActivityPage, { eventId: eventId })
+    this.nav.push(ActivityPage, { journey_id: eventId })
+  }
+
+  editPlans(planId) {
+    this.planId = planId;
+    this.eventData.getPlanActivitys(this.journeyId, planId).on('value', snap => {
+      console.log('viewActivities')
+      let rawList = [];
+      snap.forEach(snap => {
+        rawList.push({
+          id: snap.key,
+          activity: snap.val().activity,
+          time: snap.val().time
+        });
+        console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
+      });
+      this.dayActivitiesList = rawList;
+    })
+
+    this.nav.push(ViewActivitiesPage, { dayActivitiesList: this.dayActivitiesList,plan_id:this.planId,journey_id:this.journeyId  })
+  }
+
+  removePlans(planId) {
+    this.eventData.removePlans(this.journeyId, planId)
   }
 
   viewActivities(plans_id) {
@@ -61,7 +88,7 @@ export class DayPlansPage {
       this.dayActivitiesList = rawList;
     })
 
-    this.nav.push(DayActivityPage,{dayActivitiesList:this.dayActivitiesList});
+    this.nav.push(DayActivityPage, { dayActivitiesList: this.dayActivitiesList });
   }
 
   /*
