@@ -40,15 +40,24 @@
     
     <ion-list no-lines>
       <ion-item>
-        <ion-label stacked>activity</ion-label>
+        <ion-label stacked>City</ion-label>
+        <ion-input [(ngModel)]="city" type="text" placeholder="Where's the city?"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Activity</ion-label>
         <ion-input [(ngModel)]="activity" type="text" placeholder="What's your activity?"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label stacked>time</ion-label>
-        <ion-input [(ngModel)]="time" type="text" placeholder="morning/afternoon or fullday"></ion-input>
+        <ion-label stacked>Time</ion-label>
+        <ion-input [(ngModel)]="timeLabel" type="text" placeholder="">:00</ion-input>
+        <ion-range step=".30" min="0.00" max="23.30" [(ngModel)]="time" (change)="rangeChange()">
+              <ion-label range-left><button outline round small (click)="decrease()">00:00</button></ion-label>
+              <ion-label range-right><button outline round small (click)="increase()">23:59</button></ion-label>
+            </ion-range>
       </ion-item>
+
       <ion-item>
-        <button ion-button block (click)="addActivity(activity,time)">            Add            </button>
+        <button ion-button block (click)="addActivity(activity,time,city)">            Add            </button>
       </ion-item>
 
     </ion-list>

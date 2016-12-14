@@ -17,14 +17,19 @@ export class DayActivityPage {
   activity: string = '';
   dayActivitiesList: any;
   eventId: any;
+  city: string;
+
+  private prevValue: number;
+  private value: number;
 
   constructor(public nav: NavController, public navParams: NavParams, public eventData: EventData) {
     this.navParams = navParams;
+    this.value = 1;
     console.log('DayActivityPage')
     this.dayActivitiesList = this.navParams.get('dayActivitiesList')
-
-
-
+    this.city = this.navParams.get('city')
   }
+
+
 
 }

@@ -27,6 +27,10 @@ export class ActivityPage {
   time: any;
   currentDateKey: any;
   dateListCreated: boolean = false;
+  city: string;
+  timeLabel : string;
+  private prevValue: number;
+  private value: number;
 
   constructor(public nav: NavController, public formBuilder: FormBuilder, public alertCtrl: AlertController,
     public navParams: NavParams, public eventData: EventData) {
@@ -34,26 +38,23 @@ export class ActivityPage {
 
     this.journeyId = this.navParams.get('journey_id')
     this.planId = this.navParams.get('plan_id')
+    //this.city = this.navParams.get('city')
 
-    if (this.planId) {
-      console.log(' Edit plan ')
-            console.log(' New plan of journeyId ' + this.journeyId + ' planId ' + this.planId)
+    if (typeof this.planId === 'undefined') {
+
+      console.log(' New plan of journeyId ' + this.journeyId + ' planId ' + this.planId)
       this.eventData.getPlanList(this.journeyId).on('value', (snapshot) => {
-        /*
-        snapshot.forEach(snap => {
-          this.firstDateCreated = true;
-          console.log('eventDetail key ' + snap.key)
-        });
-        */
 
         if (this.dateListCreated) {
           console.log('dateListCreated ' + this.dateListCreated);
         } else {
+          console.log('set dateListCreated TRUE 1')
           this.dateListCreated = true;
           console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
           this.eventData.addFirstActivity(this.journeyId).then((new_key) => {
             console.log('new_key : ' + new_key)
             this.currentDateKey = new_key
+            this.city = '';
             this.activity = '';
             this.time = '';
           });
@@ -64,7 +65,8 @@ export class ActivityPage {
         console.log('getEventDetail error ')
       });
     } else {
-      console.log(' New plan of journeyId ' + this.journeyId + ' planId ' + this.planId)
+
+      console.log(' Edit plan of journeyId ' + this.journeyId + ' planId ' + this.planId)
       this.eventData.getPlanList(this.journeyId).on('value', (snapshot) => {
         /*
         snapshot.forEach(snap => {
@@ -76,10 +78,12 @@ export class ActivityPage {
         if (this.dateListCreated) {
           console.log('dateListCreated ' + this.dateListCreated);
         } else {
+          console.log('set dateListCreated TRUE 2')
           this.dateListCreated = true;
           console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
           this.eventData.addFirstActivity(this.journeyId).then((new_key) => {
-            console.log('new_key : ' + new_key)
+            //console.log('new_key : ' + new_key)
+
             this.currentDateKey = new_key
             this.activity = '';
             this.time = '';
@@ -99,11 +103,12 @@ export class ActivityPage {
 
   }
 
-  addActivity(activity, time) {
+  addActivity(activity, time, city) {
     console.log('addActivity on eventId : ' + this.journeyId + ' with ' + activity)
     console.log('dateListCreated : ' + this.dateListCreated)
     if (this.dateListCreated) {
-      this.eventData.addActivity(this.journeyId, this.currentDateKey, activity, time).then(() => {
+      this.eventData.addActivity(this.journeyId, this.currentDateKey, activity, time, city).then(() => {
+        this.city = city;
         this.activity = '';
         this.time = '';
       });
@@ -112,6 +117,29 @@ export class ActivityPage {
         this.activity = '';
         this.time = '';
       });
+    }
+  }
+
+  rangeChange() {
+    this.timeLabel = this.time+':00';
+  }
+  public decrease() {
+    if (this.time == 5) {
+      this.time = 1;
+    } else if (this.time == 7) {
+      this.time = 5;
+    } else if (this.time == 20) {
+      this.time = 7;
+    }
+  }
+
+  public increase() {
+    if (this.time == 1) {
+      this.time = 5;
+    } else if (this.time == 5) {
+      this.time = 7;
+    } else if (this.time == 7) {
+      this.time = 20;
     }
   }
 

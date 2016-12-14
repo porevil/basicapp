@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, reorderArray } from 'ionic-angular';
 import { EventData } from '../../providers/event-data';
 import { Camera } from 'ionic-native';
 import { ActivityPage } from '../activity/activity';
@@ -18,6 +18,11 @@ export class DayPlansPage {
   journeyId: any;
   planId: any;
   dayActivitiesList: any;
+  city: string;
+  reorder_items:boolean=false;
+  reorder_item_name:string='reorder';
+
+  items = [];
   constructor(public nav: NavController, public navParams: NavParams, public eventData: EventData) {
     this.navParams = navParams;
     this.journeyId = this.navParams.get('journeyId')
@@ -33,25 +38,47 @@ export class DayPlansPage {
       snapshot.forEach(snap => {
         rawList.push({
           id: snap.key,
+          city: snap.val().city,
           activity: snap.val().activity,
           time: snap.val().time
         });
-        console.log('push ' + snap.key + ' name ' + snap.val().name)
+        //console.log('push ' + snap.key + ' name ' + snap.val().name)
       });
       this.eventDetailList = rawList;
     });
 
 
   }
+  reorderButton(){
+    console.log('this.reorder_items '+ this.reorder_items)
+    if(this.reorder_items){
+      this.reorder_items = false;
+      this.reorder_item_name = 'reorder'
+    }else{
+      this.reorder_items = true;
+      this.reorder_item_name = 'checkmark-circle-outline'
+    }
+  }
+  reorderItems(indexes) {
+    let element = this.items[indexes.from];
+    this.items.splice(indexes.from, 1);
+    this.items.splice(indexes.to, 0, element);
+    this.items.forEach(item=>{
+      //this.dayActivitiesList.push
+    }
+    )
+    //this.eventDetailList = reorderArray(this.items, indexes);
+    console.log('reorder to '+indexes.from+ ' to '+indexes.to)
+  }
 
   openActivityPage(eventId) {
-    this.nav.push(ActivityPage, { journey_id: eventId })
+    this.nav.push(ActivityPage, { journey_id: eventId, city: this.city })
   }
 
   editPlans(planId) {
     this.planId = planId;
     this.eventData.getPlanActivitys(this.journeyId, planId).on('value', snap => {
-      console.log('viewActivities')
+      console.log('editPlans')
       let rawList = [];
       snap.forEach(snap => {
         rawList.push({
@@ -59,20 +86,20 @@ export class DayPlansPage {
           activity: snap.val().activity,
           time: snap.val().time
         });
-        console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
+        //console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
       });
       this.dayActivitiesList = rawList;
     })
 
-    this.nav.push(ViewActivitiesPage, { dayActivitiesList: this.dayActivitiesList,plan_id:this.planId,journey_id:this.journeyId  })
+    this.nav.push(ViewActivitiesPage, { dayActivitiesList: this.dayActivitiesList, plan_id: this.planId, journey_id: this.journeyId })
   }
 
   removePlans(planId) {
     this.eventData.removePlans(this.journeyId, planId)
   }
 
-  viewActivities(plans_id) {
-    console.log('Goto DayActivityPage')
+  viewActivities(plans_id, city) {
+    console.log('Goto viewActivities')
 
     this.eventData.getPlanActivitys(this.journeyId, plans_id).on('value', snap => {
       console.log('viewActivities')
@@ -83,12 +110,12 @@ export class DayPlansPage {
           activity: snap.val().activity,
           time: snap.val().time
         });
-        console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
+        //console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
       });
       this.dayActivitiesList = rawList;
     })
 
-    this.nav.push(DayActivityPage, { dayActivitiesList: this.dayActivitiesList });
+    this.nav.push(DayActivityPage, { dayActivitiesList: this.dayActivitiesList, city: city });
   }
 
   /*

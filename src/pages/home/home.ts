@@ -34,7 +34,7 @@ export class HomePage {
           start_date: snap.val().start_date,
           end_date: snap.val().end_date,
         });
-        console.log('push '+snap.key+' name '+snap.val().name)
+        //console.log('push '+snap.key+' name '+snap.val().name)
       });
       this.journeys = rawList;
     });
