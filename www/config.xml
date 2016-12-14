@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget xmlns = "http://www.w3.org/ns/widgets"
 xmlns:gap = "http://phonegap.com/ns/1.0"
-id = "com.porevil.basicapp" versionCode = "10" version = "0.1" >
+id = "com.porevil.myjourney" versionCode = "10" version = "0.1" >
 
     <!-- versionCode is optional and Android only -->
-    <name>Let's Camping</name>
+    <name>My Journey</name>
     <description>
-        An awesome Basic app.
+        An awesome Journey app.
     </description>
     <author href="http://www.example.com" email="porevil@yahoo.com">porevil </author>
 
