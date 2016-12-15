@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { EventData } from '../../providers/event-data';
 import {
   NavController,
-  LoadingController,
   AlertController,
   NavParams
 } from 'ionic-angular';
@@ -27,9 +26,8 @@ export class ActivityPage {
   time: any;
   currentDateKey: any;
   dateListCreated: boolean = false;
-  city: string;
+  place: string;
   timeLabel : string;
-  private prevValue: number;
   private value: number;
 
   constructor(public nav: NavController, public formBuilder: FormBuilder, public alertCtrl: AlertController,
@@ -39,7 +37,7 @@ export class ActivityPage {
     this.journeyId = this.navParams.get('journey_id')
     this.planId = this.navParams.get('plan_id')
     //this.city = this.navParams.get('city')
-
+    console.log('ActivityPage journeyId:'+this.journeyId+' planId:'+this.planId)
     if (typeof this.planId === 'undefined') {
 
       console.log(' New plan of journeyId ' + this.journeyId + ' planId ' + this.planId)
@@ -51,10 +49,10 @@ export class ActivityPage {
           console.log('set dateListCreated TRUE 1')
           this.dateListCreated = true;
           console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
-          this.eventData.addFirstActivity(this.journeyId).then((new_key) => {
+          this.eventData.addFirstActivity(this.journeyId,0).then((new_key) => {
             console.log('new_key : ' + new_key)
             this.currentDateKey = new_key
-            this.city = '';
+            this.place = '';
             this.activity = '';
             this.time = '';
           });
@@ -78,10 +76,11 @@ export class ActivityPage {
         if (this.dateListCreated) {
           console.log('dateListCreated ' + this.dateListCreated);
         } else {
+          
           console.log('set dateListCreated TRUE 2')
           this.dateListCreated = true;
           console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
-          this.eventData.addFirstActivity(this.journeyId).then((new_key) => {
+          this.eventData.addFirstActivity(this.journeyId,0).then((new_key) => {
             //console.log('new_key : ' + new_key)
 
             this.currentDateKey = new_key
@@ -103,12 +102,12 @@ export class ActivityPage {
 
   }
 
-  addActivity(activity, time, city) {
+  addActivity(activity, time, place) {
     console.log('addActivity on eventId : ' + this.journeyId + ' with ' + activity)
     console.log('dateListCreated : ' + this.dateListCreated)
     if (this.dateListCreated) {
-      this.eventData.addActivity(this.journeyId, this.currentDateKey, activity, time, city).then(() => {
-        this.city = city;
+      this.eventData.addActivity(this.journeyId, this.currentDateKey, activity, time, place).then(() => {
+        this.place = place;
         this.activity = '';
         this.time = '';
       });

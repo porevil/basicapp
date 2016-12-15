@@ -37,6 +37,7 @@ export class DayPlansPage {
       let rawList = [];
       snapshot.forEach(snap => {
         rawList.push({
+          index: snap.val().index,
           id: snap.key,
           city: snap.val().city,
           activity: snap.val().activity,

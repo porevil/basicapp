@@ -19728,6 +19728,10 @@ page-login .error-message .item-inner {
   border-bottom: 0 !important;
 }
 
+page-page-gmap-autocomplete #map {
+  height: 40%;
+}
+
 page-profile ion-item ion-label {
   margin: 0 !important;
 }

@@ -17,7 +17,8 @@ import { ViewActivitiesPage } from '../pages/view-activities/view-activities';
 import { AuthData } from '../providers/auth-data';
 import { EventData } from '../providers/event-data';
 import { ProfileData } from '../providers/profile-data';
-
+import { PageGmapAutocomplete } from '../pages/page-gmap-autocomplete/page-gmap-autocomplete';
+import { ModalAutocompleteItems } from '../pages/modal-autocomplete-items/modal-autocomplete-items';
 
 @NgModule({
   declarations: [
@@ -33,10 +34,15 @@ import { ProfileData } from '../providers/profile-data';
     DashboardPage,
     ActivityPage,
     DayActivityPage,
-    ViewActivitiesPage
+    ViewActivitiesPage,
+    PageGmapAutocomplete,
+    ModalAutocompleteItems
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, [
+      'ionic',
+      'ion-google-place'
+    ])
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -52,7 +58,10 @@ import { ProfileData } from '../providers/profile-data';
     DashboardPage,
     ActivityPage,
     DayActivityPage,
-    ViewActivitiesPage
+    ViewActivitiesPage,
+    PageGmapAutocomplete,
+    ModalAutocompleteItems
+
   ],
   providers: [AuthData,
     EventData,

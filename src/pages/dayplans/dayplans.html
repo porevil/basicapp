@@ -61,7 +61,7 @@
       <ion-item-sliding *ngFor="let eventDetail of eventDetailList">
 
         <button ion-item (click)="viewActivities(eventDetail.id,eventDetail.city)" class="home-item">
-          {{eventDetail.city}}
+          {{eventDetail.index}}:{{eventDetail.city}}
           </button>
 
         <ion-item-options>

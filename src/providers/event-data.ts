@@ -18,7 +18,7 @@ export class EventData {
 
   }
   createJourney(event_name: string, from_location: string, to_location: string,
-    start_date: string, end_date: string) {
+    start_date: string, end_date: string, days: number) {
 
     return this.journeyList.push({
       event_name: event_name,
@@ -29,6 +29,11 @@ export class EventData {
       no_of_item: 0
     }).then(newEvent => {
       this.journeyList.child(newEvent.key).child('id').set(newEvent.key);
+      console.log('Initial All plans')
+      for(let index = 0;index<days;index++){
+        this.addFirstActivity(newEvent.key,index)
+      }
+      
     });
 
   }
@@ -60,14 +65,14 @@ export class EventData {
 
   }
 
-  addActivity(journey_id, dateKey, activity, time, city): any {
+  addActivity(journey_id, dateKey, activity, time, place): any {
     console.log('addActivity on UID ' + this.currentUser.uid + ' update on dateKey ' + dateKey);
     return this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('activities').push({
       activity: activity,
       time: time
     }).then((newActitity) => {
-      console.log('add city ' + city)
-      this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('city').set(city)
+      console.log('add place ' + place)
+      this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('place').set(place)
       /*
       this.journeyList.child(journey_id).transaction((event) => {
         this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('city').set(city)
@@ -102,12 +107,12 @@ export class EventData {
     this.journeyList.child(journey_id).child('day_plans').child('plans').child('no_of_item').set(noOfItem)
     return noOfItem;*/
   }
-  addFirstActivity(journey_id): any {
+  addFirstActivity(journey_id,index): any {
     console.log('addFirstActivity on UID ' + journey_id);
     let noOfItem = 0//this.updateNoOfItem(journey_id, false)
 
     return this.journeyList.child(journey_id).child('day_plans').child('plans').push({
-      index: noOfItem
+      index: index
     }).then((newActitity) => {
       this.journeyList.child(journey_id).child('day_plans').child('plans').child(newActitity.key).child('id').set(newActitity.key);
       console.log('add child of day_plans with key : ' + newActitity.key);
