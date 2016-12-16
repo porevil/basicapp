@@ -66,7 +66,7 @@ export class EventData {
   }
 
   addActivity(journey_id, dateKey, activity, time, place): any {
-    console.log('addActivity on UID ' + this.currentUser.uid + ' update on dateKey ' + dateKey);
+    console.log('addActivity on journey_id ' + journey_id + ' update on plansId ' + dateKey);
     return this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('activities').push({
       activity: activity,
       time: time

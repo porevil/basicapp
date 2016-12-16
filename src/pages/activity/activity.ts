@@ -3,7 +3,7 @@ import { EventData } from '../../providers/event-data';
 import {
   NavController,
   AlertController,
-  NavParams
+  NavParams, ViewController
 } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -31,11 +31,12 @@ export class ActivityPage {
   private value: number;
 
   constructor(public nav: NavController, public formBuilder: FormBuilder, public alertCtrl: AlertController,
-    public navParams: NavParams, public eventData: EventData) {
+    public navParams: NavParams, public eventData: EventData, public viewCtrl: ViewController) {
 
 
     this.journeyId = this.navParams.get('journey_id')
     this.planId = this.navParams.get('plan_id')
+    this.currentEvent = this.planId;
     //this.city = this.navParams.get('city')
     console.log('ActivityPage journeyId:'+this.journeyId+' planId:'+this.planId)
     if (typeof this.planId === 'undefined') {
@@ -49,7 +50,7 @@ export class ActivityPage {
           console.log('set dateListCreated TRUE 1')
           this.dateListCreated = true;
           console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
-          this.eventData.addFirstActivity(this.journeyId,0).then((new_key) => {
+          this.eventData.addActivity(this.journeyId, this.planId, this.activity, this.time,this.place).then((new_key) => {
             console.log('new_key : ' + new_key)
             this.currentDateKey = new_key
             this.place = '';
@@ -80,13 +81,14 @@ export class ActivityPage {
           console.log('set dateListCreated TRUE 2')
           this.dateListCreated = true;
           console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
-          this.eventData.addFirstActivity(this.journeyId,0).then((new_key) => {
+          /*
+          this.eventData.addActivity(this.journeyId, this.planId, this.activity, this.time,this.place).then((new_key) => {
             //console.log('new_key : ' + new_key)
 
             this.currentDateKey = new_key
             this.activity = '';
             this.time = '';
-          });
+          });*/
 
         }
 
@@ -104,19 +106,21 @@ export class ActivityPage {
 
   addActivity(activity, time, place) {
     console.log('addActivity on eventId : ' + this.journeyId + ' with ' + activity)
-    console.log('dateListCreated : ' + this.dateListCreated)
+    //console.log('dateListCreated : ' + this.dateListCreated)
     if (this.dateListCreated) {
-      this.eventData.addActivity(this.journeyId, this.currentDateKey, activity, time, place).then(() => {
+      this.eventData.addActivity(this.journeyId, this.planId, activity, time, place).then(() => {
         this.place = place;
         this.activity = '';
         this.time = '';
       });
     } else {
-      this.eventData.updateActivity(this.journeyId, this.currentDateKey, activity, time).then(() => {
+      this.eventData.updateActivity(this.journeyId, this.planId, activity, time).then(() => {
         this.activity = '';
         this.time = '';
       });
     }
+    console.log('viewCtrl.dismiss : ');
+    this.viewCtrl.dismiss();
   }
 
   rangeChange() {

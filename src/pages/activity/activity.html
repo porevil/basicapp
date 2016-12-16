@@ -19,28 +19,10 @@
     Add Activity
   </ion-card-header>
   <ion-card-content>
-
-    <!--ion-item (click)="updateName()">
-      <ion-grid>
-        <ion-row>
-          <ion-col width-50>
-            Name
-          </ion-col>
-          <ion-col *ngIf="userProfile?.firstName || userProfile?.lastName">
-            {{userProfile?.firstName}} {{userProfile?.lastName}}
-          </ion-col>
-          <ion-col class="placeholder-profile" *ngIf="!userProfile?.firstName">
-            <span>
-              Tap here to edit.
-            </span>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item-->
-    
+   
     <ion-list no-lines>
       <ion-item>
-        <ion-label stacked>City</ion-label>
+        <ion-label stacked>Place</ion-label>
         <ion-input [(ngModel)]="place" type="text" placeholder="Where's the place?"></ion-input>
         <!--ion-google-place placeholder="Enter an address, Apt# and ZIP"> </ion-google-place-->
       </ion-item>
@@ -58,7 +40,7 @@
       </ion-item>
 
       <ion-item> 
-        <button ion-button block (click)="addActivity(activity,time,city)">            Add            </button>
+        <button ion-button block (click)="addActivity(activity,time,place)">            Add            </button>
       </ion-item>
 
     </ion-list>

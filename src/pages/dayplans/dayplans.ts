@@ -47,9 +47,8 @@ export class DayPlansPage {
       });
       this.eventDetailList = rawList;
     });
-
-
   }
+
   reorderButton(){
     console.log('this.reorder_items '+ this.reorder_items)
     if(this.reorder_items){
@@ -60,15 +59,21 @@ export class DayPlansPage {
       this.reorder_item_name = 'checkmark-circle-outline'
     }
   }
+
   reorderItems(indexes) {
+    /*
     let element = this.items[indexes.from];
     this.items.splice(indexes.from, 1);
     this.items.splice(indexes.to, 0, element);
+    */
+    this.items = reorderArray(this.eventDetailList, indexes);
     this.items.forEach(item=>{
+      console.log('ReOrder : id '+item.id+' to index '+indexes.to)
       //this.dayActivitiesList.push
     }
     )
     //this.eventDetailList = reorderArray(this.items, indexes);
+
     console.log('reorder to '+indexes.from+ ' to '+indexes.to)
   }
 

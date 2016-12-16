@@ -24,7 +24,7 @@ export class ViewActivitiesPage implements OnInit {
   }
 
   constructor(public nav: NavController, public navParams: NavParams, public eventData: EventData
-  , public modalCtrl: ModalController, public viewCtrl: ViewController) {
+    , public modalCtrl: ModalController, public viewCtrl: ViewController) {
     this.navParams = navParams;
     this.planId = this.navParams.get("plan_id");
     this.journeyId = this.navParams.get("journey_id");
@@ -55,11 +55,25 @@ export class ViewActivitiesPage implements OnInit {
 
     modal.onDidDismiss(data => {
       console.log('page > modal dismissed > data > ', data);
-      if (data) {
+      //if (data) {
+        console.log('eventData.getPlanActivitys by journeyId '+this.journeyId+' planId:'+this.planId)
+        this.eventData.getPlanActivitys(this.journeyId, this.planId).on('value', snap => {
+          console.log('eventData.getPlanActivitys')
+          let rawList = [];
+          snap.forEach(snap => {
+            rawList.push({
+              id: snap.key,
+              activity: snap.val().activity,
+              time: snap.val().time
+            });
+            //console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
+          });
+          this.dayActivitiesList = rawList;
+        })
         //this.address.place = data.description;
         // get details
         //this.getPlaceDetail(data.place_id);
-      }
+      //}
     })
     modal.present();
   }
