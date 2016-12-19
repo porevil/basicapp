@@ -30,10 +30,10 @@ export class EventData {
     }).then(newEvent => {
       this.journeyList.child(newEvent.key).child('id').set(newEvent.key);
       console.log('Initial All plans')
-      for(let index = 0;index<days;index++){
-        this.addFirstActivity(newEvent.key,index)
+      for (let index = 0; index < days; index++) {
+        this.addFirstActivity(newEvent.key, index)
       }
-      
+
     });
 
   }
@@ -62,6 +62,16 @@ export class EventData {
         time: element.time
       });
     });
+
+  }
+
+  updatePlansSequence(journeyId, planId, index): any {
+    console.log('move journeyId ' + journeyId + ' planId ' + planId + ' to index ' + index);
+    //console.log(' updateActivities : ' + element.id);
+    this.journeyList.child(journeyId).child('day_plans').child('plans').child(planId).update({
+      index: index,
+    });
+
 
   }
 
@@ -94,7 +104,7 @@ export class EventData {
       console.log('no of item' + event.no_of_item);
       return event.no_of_item;
     });
-    
+
     /*
     console.log('updateNoOfItem noOfItem ' + noOfItem);
     if (isNaN(noOfItem)) {
@@ -107,7 +117,7 @@ export class EventData {
     this.journeyList.child(journey_id).child('day_plans').child('plans').child('no_of_item').set(noOfItem)
     return noOfItem;*/
   }
-  addFirstActivity(journey_id,index): any {
+  addFirstActivity(journey_id, index): any {
     console.log('addFirstActivity on UID ' + journey_id);
     let noOfItem = 0//this.updateNoOfItem(journey_id, false)
 

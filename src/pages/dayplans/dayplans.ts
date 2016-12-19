@@ -66,15 +66,22 @@ export class DayPlansPage {
     this.items.splice(indexes.from, 1);
     this.items.splice(indexes.to, 0, element);
     */
+    let moveFrom = 0;
+    let moveTo = 0;
     this.items = reorderArray(this.eventDetailList, indexes);
-    this.items.forEach(item=>{
-      console.log('ReOrder : id '+item.id+' to index '+indexes.to)
+    //this.items.forEach(item=>{
+      //console.log('ReOrder : id '+item.id+' from index ['+indexes.from+'] to index ['+indexes.to+']')
+      moveFrom = indexes.from;
+      moveTo = indexes.to;
       //this.dayActivitiesList.push
-    }
-    )
+    //}
+    //)
     //this.eventDetailList = reorderArray(this.items, indexes);
-
-    console.log('reorder to '+indexes.from+ ' to '+indexes.to)
+    console.log('reOrderItems'+this.items[moveFrom].id+' to '+indexes.from)
+    this.eventData.updatePlansSequence(this.journeyId,this.items[moveFrom].id,indexes.from);
+    console.log('reOrderItems'+this.items[moveTo].id+'  to '+indexes.to)
+    this.eventData.updatePlansSequence(this.journeyId,this.items[moveTo].id,indexes.to);
+    //console.log('reorder to '+indexes.from+ ' to '+indexes.to)
   }
 
   openActivityPage(eventId) {
