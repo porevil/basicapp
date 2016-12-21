@@ -21,7 +21,8 @@ id = "com.porevil.myjourney" versionCode = "10" version = "0.1" >
   <plugin name="cordova-plugin-network-information" source="npm" />
   <plugin name="cordova-plugin-inappbrowser" source="npm" />
   <plugin name="cordova-plugin-datepicker" source="npm" />
-
+  <plugin name="cordova-plugin-camera" source="npm" />
+  
 <icon src="resources/android/icon/drawable-ldpi-icon.png" gap:platform="android" gap:qualifier="ldpi"/>
 <icon src="resources/android/icon/drawable-mdpi-icon.png" gap:platform="android" gap:qualifier="mdpi"/>
 <icon src="resources/android/icon/drawable-hdpi-icon.png" gap:platform="android" gap:qualifier="hdpi"/>
