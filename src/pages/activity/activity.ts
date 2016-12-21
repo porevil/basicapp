@@ -6,6 +6,7 @@ import {
   NavParams, ViewController
 } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Camera, DatePicker } from 'ionic-native';
 
 /*
   Generated class for the Activity page.
@@ -27,8 +28,9 @@ export class ActivityPage {
   currentDateKey: any;
   dateListCreated: boolean = false;
   place: string;
-  timeLabel : string;
+  timeLabel: string;
   private value: number;
+  activitiesPicture: any = null;
 
   constructor(public nav: NavController, public formBuilder: FormBuilder, public alertCtrl: AlertController,
     public navParams: NavParams, public eventData: EventData, public viewCtrl: ViewController) {
@@ -38,7 +40,7 @@ export class ActivityPage {
     this.planId = this.navParams.get('plan_id')
     this.currentEvent = this.planId;
     //this.city = this.navParams.get('city')
-    console.log('ActivityPage journeyId:'+this.journeyId+' planId:'+this.planId)
+    console.log('ActivityPage journeyId:' + this.journeyId + ' planId:' + this.planId)
     if (typeof this.planId === 'undefined') {
 
       console.log(' New plan of journeyId ' + this.journeyId + ' planId ' + this.planId)
@@ -50,7 +52,7 @@ export class ActivityPage {
           console.log('set dateListCreated TRUE 1')
           this.dateListCreated = true;
           console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
-          this.eventData.addActivity(this.journeyId, this.planId, this.activity, this.time,this.place).then((new_key) => {
+          this.eventData.addActivity(this.journeyId, this.planId, this.activity, this.time, this.place, this.activitiesPicture).then((new_key) => {
             console.log('new_key : ' + new_key)
             this.currentDateKey = new_key
             this.place = '';
@@ -77,7 +79,7 @@ export class ActivityPage {
         if (this.dateListCreated) {
           console.log('dateListCreated ' + this.dateListCreated);
         } else {
-          
+
           console.log('set dateListCreated TRUE 2')
           this.dateListCreated = true;
           console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
@@ -108,7 +110,7 @@ export class ActivityPage {
     console.log('addActivity on eventId : ' + this.journeyId + ' with ' + activity)
     //console.log('dateListCreated : ' + this.dateListCreated)
     if (this.dateListCreated) {
-      this.eventData.addActivity(this.journeyId, this.planId, activity, time, place).then(() => {
+      this.eventData.addActivity(this.journeyId, this.planId, activity, time, place, this.activitiesPicture).then(() => {
         this.place = place;
         this.activity = '';
         this.time = '';
@@ -124,7 +126,7 @@ export class ActivityPage {
   }
 
   rangeChange() {
-    this.timeLabel = this.time+':00';
+    this.timeLabel = this.time + ':00';
   }
   public decrease() {
     if (this.time == 5) {
@@ -144,6 +146,37 @@ export class ActivityPage {
     } else if (this.time == 7) {
       this.time = 20;
     }
+  }
+
+  showDatePicker() {
+    DatePicker.show({
+      date: new Date(),
+      mode: 'time'
+    }).then(
+      date => {
+        console.log('Got date: ', date)
+        this.time = date;
+      },
+
+      err => console.log('Error occurred while getting date: ', err)
+      );
+  }
+
+  takePicture() {
+    Camera.getPicture({
+      quality: 95,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      allowEdit: true,
+      encodingType: Camera.EncodingType.PNG,
+      targetWidth: 500,
+      targetHeight: 500,
+      saveToPhotoAlbum: true
+    }).then(imageData => {
+      this.activitiesPicture = imageData;
+    }, error => {
+      console.log("ERROR -> " + JSON.stringify(error));
+    });
   }
 
   /*

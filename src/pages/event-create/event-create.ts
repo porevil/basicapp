@@ -7,7 +7,12 @@ import { EventData } from '../../providers/event-data';
   templateUrl: 'event-create.html',
 })
 export class EventCreatePage {
-
+  event_name : any;
+  from_location: any;
+  to_location: any;
+  start_date: any;
+  end_date: any;
+  days: any;
   constructor(public nav: NavController, public eventData: EventData) {
     this.nav = nav;
     this.eventData = eventData;

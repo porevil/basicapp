@@ -9,7 +9,6 @@
   <ion-navbar>
     <ion-title>Dashboard</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
@@ -23,21 +22,35 @@
       <p>Date: <strong>{{currentEvent?.date}}</strong></p>
     </ion-card-content-->
   </ion-card>
-  <ion-slides style="width: 700px;height: 200px;">
+<div class="slide-wrapper">
+    <ion-slides>
 
-    <ion-slide style="width: 500px;height: 200px;">
-      <h2>Day 1</h2>
-    </ion-slide>
+      <ion-slide *ngFor="let eventDetail of eventDetailList">
+        <div class="blue">
+          <button ion-item (click)="viewActivities(eventDetail.id,eventDetail.city)">
+          {{eventDetail.index}}:{{eventDetail.city}}
+          </button>
+        </div>
+      </ion-slide>
 
-    <ion-slide style="width: 500px;height: 200px;">
-      <h2>Day 2</h2>
-    </ion-slide>
+      <!--ion-slide >
+        <div class="blue">
+          <h1>BLUE</h1>
+        </div>
+      </ion-slide>
+      <ion-slide >
+        <div class="green">
+          <h1>GREEN</h1>
+        </div>
+      </ion-slide>
+      <ion-slide >
+        <div class="red">
+          <h1>RED</h1>
+        </div>
+      </ion-slide-->
 
-    <ion-slide style="width: 500px;height: 200px;">
-      <h2>Day 3</h2>
-    </ion-slide>
-
-  </ion-slides>
+    </ion-slides>
+</div>
 
   <button ion-button round outline (click)="gotoDayPlans()">Day Plans</button>
   <button ion-button round outline (click)="gotoLocation()">Location</button>

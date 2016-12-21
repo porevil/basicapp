@@ -17,6 +17,8 @@ export class EventData {
     console.log('EventData journeyList ' + this.journeyList)
 
   }
+
+  // Create journey : first child under user node
   createJourney(event_name: string, from_location: string, to_location: string,
     start_date: string, end_date: string, days: number) {
 
@@ -66,8 +68,7 @@ export class EventData {
   }
 
   updatePlansSequence(journeyId, planId, index): any {
-    console.log('move journeyId ' + journeyId + ' planId ' + planId + ' to index ' + index);
-    //console.log(' updateActivities : ' + element.id);
+    console.log('move planId ' + planId + ' to index ' + index);
     this.journeyList.child(journeyId).child('day_plans').child('plans').child(planId).update({
       index: index,
     });
@@ -75,7 +76,7 @@ export class EventData {
 
   }
 
-  addActivity(journey_id, dateKey, activity, time, place): any {
+  addActivity(journey_id, dateKey, activity, time, place, picture): any {
     console.log('addActivity on journey_id ' + journey_id + ' update on plansId ' + dateKey);
     return this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('activities').push({
       activity: activity,
@@ -90,6 +91,14 @@ export class EventData {
         return event;
       });
 */
+      if (picture != null) {
+        this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('profilePicture.png')
+          .putString(picture, 'base64', { contentType: 'image/png' })
+          .then((savedPicture) => {
+            this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('profilePicture')
+              .set(savedPicture.downloadURL);
+          });
+      }
     });
   }
   updateNoOfItem(journey_id, has_item: boolean): number {
@@ -105,17 +114,6 @@ export class EventData {
       return event.no_of_item;
     });
 
-    /*
-    console.log('updateNoOfItem noOfItem ' + noOfItem);
-    if (isNaN(noOfItem)) {
-      noOfItem = 1
-    } else {
-      noOfItem++;
-    }
-    
-    console.log('increase noOfItem : ' + noOfItem);
-    this.journeyList.child(journey_id).child('day_plans').child('plans').child('no_of_item').set(noOfItem)
-    return noOfItem;*/
   }
   addFirstActivity(journey_id, index): any {
     console.log('addFirstActivity on UID ' + journey_id);
@@ -143,7 +141,7 @@ export class EventData {
 
   getPlanList(journey_id): any {
     console.log('getPlanList by eventId ' + journey_id);
-    return this.journeyList.child(journey_id).child('day_plans').child('plans');
+    return this.journeyList.child(journey_id).child('day_plans').child('plans').orderByChild('index');
   }
 
   getPlanActivitys(journey_id, activity_id): any {

@@ -19636,13 +19636,83 @@ sub {
   }
 }
 
-page-dashboard ion-slide {
-  background-color: #32db64;
+page-dashboard .slide-wrapper {
+  height: 40%;
+  width: 81%;
+  margin: 0 auto;
 }
 
-page-dashboard ion-slide img {
-  height: 85vh !important;
-  width: auto !important;
+page-dashboard .swiper {
+  height: 100%;
+  overflow: visible;
+}
+
+page-dashboard .swiper-slide {
+  /*border-bottom: 1px solid rgba(0,0,0,0.2);*/
+  overflow: hidden;
+  color: #000;
+  background-color: #fff;
+  text-align: center;
+}
+
+page-dashboard ion-slide {
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+page-dashboard ion-slide:first-child {
+  padding-left: 0;
+}
+
+page-dashboard ion-slide:last-child {
+  padding-right: 0;
+}
+
+page-dashboard ion-slide:nth-child(2) {
+  z-index: 1;
+}
+
+page-dashboard ion-slide .box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+page-dashboard ion-slide .box h1 {
+  position: absolute;
+  bottom: -43px;
+  margin: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+page-dashboard .swiper ion-slide.slider-slide.current .box h1 {
+  transition: bottom 450ms ease-out 250ms;
+  bottom: 0;
+}
+
+page-dashboard .blue {
+  background-color: #009FD9;
+}
+
+page-dashboard .blue h1 {
+  color: #fff;
+}
+
+page-dashboard .green {
+  background-color: #1FB36B;
+}
+
+page-dashboard .green h1 {
+  color: #fff;
+}
+
+page-dashboard .red {
+  background-color: #E62B25;
+}
+
+page-dashboard .red h1 {
+  color: #fff;
 }
 
 page-day-activity .home-item {

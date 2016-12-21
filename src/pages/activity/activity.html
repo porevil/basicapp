@@ -14,37 +14,45 @@
 
 <ion-content>
 
-<ion-card class="add-guest-form">
-  <ion-card-header>
-    Add Activity
-  </ion-card-header>
-  <ion-card-content>
-   
-    <ion-list no-lines>
-      <ion-item>
-        <ion-label stacked>Place</ion-label>
-        <ion-input [(ngModel)]="place" type="text" placeholder="Where's the place?"></ion-input>
-        <!--ion-google-place placeholder="Enter an address, Apt# and ZIP"> </ion-google-place-->
-      </ion-item>
-      <ion-item>
-        <ion-label stacked>Activity</ion-label>
-        <ion-input [(ngModel)]="activity" type="text" placeholder="What's your activity?"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label stacked>Time</ion-label>
-        <ion-input [(ngModel)]="time" type="text" placeholder="">:00</ion-input>
-        <ion-range step=".30" min="0.00" max="23.30" [(ngModel)]="time" (change)="rangeChange()">
-              <ion-label range-left><button outline round small (click)="decrease()">00:00</button></ion-label>
-              <ion-label range-right><button outline round small (click)="increase()">23:59</button></ion-label>
-            </ion-range>
-      </ion-item>
+  <ion-card class="add-guest-form">
+    <ion-card-header>
+      Add Activity
+    </ion-card-header>
+    <ion-card-content>
 
-      <ion-item> 
-        <button ion-button block (click)="addActivity(activity,time,place)">            Add            </button>
-      </ion-item>
+      <ion-list no-lines>
+        <ion-item>
+          <ion-label stacked>Place</ion-label>
+          <ion-input [(ngModel)]="place" type="text" placeholder="Where's the place?"></ion-input>
+          <!--ion-google-place placeholder="Enter an address, Apt# and ZIP"> </ion-google-place-->
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Activity</ion-label>
+          <ion-input [(ngModel)]="activity" type="text" placeholder="What's your activity?"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Time</ion-label>
+          <ion-input [(ngModel)]="time" type="text" (click)="showDatePicker()" placeholder="">:00</ion-input>
+          <!--ion-range step=".30" min="0.00" max="23.30" [(ngModel)]="time" (change)="rangeChange()">
+            <ion-label range-left><button outline round small (click)="decrease()">00:00</button></ion-label>
+            <ion-label range-right><button outline round small (click)="increase()">23:59</button></ion-label>
+          </ion-range-->
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Price</ion-label>
+          <ion-input [(ngModel)]="price" type="text" placeholder="How much?"></ion-input>
+        </ion-item>
+        <ion-item>
+          <button ion-button color="primary" block (click)="takePicture()">
+          Take a Picture
+        </button>
+        </ion-item>
+        <ion-item>
+          <button ion-button block (click)="addActivity(activity,time,place)">            Add            </button>
+        </ion-item>
 
-    </ion-list>
-  </ion-card-content>
-</ion-card>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>
