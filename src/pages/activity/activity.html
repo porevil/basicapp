@@ -32,11 +32,14 @@
         </ion-item>
         <ion-item>
           <ion-label stacked>Time</ion-label>
-          <ion-input [(ngModel)]="time" type="text" (click)="showDatePicker()" placeholder="">:00</ion-input>
+          <!--ion-input [(ngModel)]="time" type="text" (click)="showDatePicker()" placeholder="">:00</ion-input-->
           <!--ion-range step=".30" min="0.00" max="23.30" [(ngModel)]="time" (change)="rangeChange()">
             <ion-label range-left><button outline round small (click)="decrease()">00:00</button></ion-label>
             <ion-label range-right><button outline round small (click)="increase()">23:59</button></ion-label>
           </ion-range-->
+
+          <ion-datetime displayFormat="hh:mm a" [(ngModel)]="time"></ion-datetime>
+
         </ion-item>
         <ion-item>
           <ion-label stacked>Price</ion-label>

@@ -39,11 +39,12 @@ export class DayPlansPage {
         rawList.push({
           index: snap.val().index,
           id: snap.key,
-          city: snap.val().city,
+          place: snap.val().place,
           activity: snap.val().activity,
-          time: snap.val().time
+          time: snap.val().time,
+          price: snap.val().price
         });
-        //console.log('push ' + snap.key + ' name ' + snap.val().name)
+        console.log('push ' + snap.key + ' place ' + snap.val().place+ ' price ' + snap.val().price+ ' time ' + snap.val().time)
       });
       this.eventDetailList = rawList;
     });
@@ -84,6 +85,8 @@ export class DayPlansPage {
         rawList.push({
           id: snap.key,
           activity: snap.val().activity,
+          place: snap.val().place,
+          price: snap.val().price,
           time: snap.val().time
         });
         //console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
@@ -98,8 +101,9 @@ export class DayPlansPage {
     this.eventData.removePlans(this.journeyId, planId)
   }
 
+  /*
   viewActivities(plans_id, city) {
-    console.log('Goto viewActivities')
+    console.log('Goto viewActivities plans_id : '+plans_id)
 
     this.eventData.getPlanActivitys(this.journeyId, plans_id).on('value', snap => {
       console.log('viewActivities')
@@ -108,32 +112,17 @@ export class DayPlansPage {
         rawList.push({
           id: snap.key,
           activity: snap.val().activity,
+          place : snap.val().place,
+          price : snap.val().price,
           time: snap.val().time
         });
+        console.log('viewActivities on journeyId : ' + this.journeyId + ' price : ' + snap.val().price+' time : '+snap.val().time+' place : '+snap.val().price)
         //console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
       });
       this.dayActivitiesList = rawList;
     })
 
     this.nav.push(DayActivityPage, { dayActivitiesList: this.dayActivitiesList, city: city });
-  }
-
-  /*
-  takePicture() {
-    Camera.getPicture({
-      quality: 95,
-      destinationType: Camera.DestinationType.DATA_URL,
-      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-      allowEdit: true,
-      encodingType: Camera.EncodingType.PNG,
-      targetWidth: 500,
-      targetHeight: 500,
-      saveToPhotoAlbum: true
-    }).then(imageData => {
-      this.guestPicture = imageData;
-    }, error => {
-      console.log("ERROR -> " + JSON.stringify(error));
-    });
   }
 */
 

@@ -27,10 +27,24 @@
     <ion-card-content>
       <ion-list no-lines>
         <ion-item-sliding *ngFor="let dayActivity of dayActivitiesList">
-          <button ion-item class="home-item">
-             <ion-label floating>Activity : </ion-label> <ion-input  [(ngModel)]="dayActivity.activity"></ion-input>
-             <ion-label floating>Time : </ion-label> <ion-input  [(ngModel)]="dayActivity.time"></ion-input>
-          </button>
+          <ion-item>
+            <ion-label floating>Place : </ion-label>
+            <ion-input [(ngModel)]="dayActivity.place"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Activity : </ion-label>
+            <ion-input [(ngModel)]="dayActivity.activity"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Time : </ion-label>
+            <!--ion-input  [(ngModel)]="dayActivity.time"></ion-input-->
+            <ion-datetime displayFormat="hh:mm a" [(ngModel)]="dayActivity.time"></ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>price : </ion-label>
+            <ion-input [(ngModel)]="dayActivity.price"></ion-input>
+
+          </ion-item>
         </ion-item-sliding>
       </ion-list>
       <ion-item>

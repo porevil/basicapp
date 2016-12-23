@@ -20,17 +20,18 @@ import { Camera, DatePicker } from 'ionic-native';
 })
 export class ActivityPage {
   public activityForm;
+  currentDateKey: any;
+  dateListCreated: boolean = false;
+  private value: number;
+  activitiesPicture: any = null;
+
   currentEvent: any;
   journeyId: any;
   planId: any;
   activity: any;
+  price:number;
   time: any;
-  currentDateKey: any;
-  dateListCreated: boolean = false;
   place: string;
-  timeLabel: string;
-  private value: number;
-  activitiesPicture: any = null;
 
   constructor(public nav: NavController, public formBuilder: FormBuilder, public alertCtrl: AlertController,
     public navParams: NavParams, public eventData: EventData, public viewCtrl: ViewController) {
@@ -52,7 +53,7 @@ export class ActivityPage {
           console.log('set dateListCreated TRUE 1')
           this.dateListCreated = true;
           console.log('dateListCreated ' + this.dateListCreated + ' addFirstActivity ');
-          this.eventData.addActivity(this.journeyId, this.planId, this.activity, this.time, this.place, this.activitiesPicture).then((new_key) => {
+          this.eventData.addActivity(this.journeyId, this.planId, this.activity, this.time, this.place, this.activitiesPicture,this.price).then((new_key) => {
             console.log('new_key : ' + new_key)
             this.currentDateKey = new_key
             this.place = '';
@@ -106,17 +107,17 @@ export class ActivityPage {
 
   }
 
-  addActivity(activity, time, place) {
-    console.log('addActivity on eventId : ' + this.journeyId + ' with ' + activity)
-    //console.log('dateListCreated : ' + this.dateListCreated)
+  addActivity() {
+    console.log('addActivity on journeyId : ' + this.journeyId + ' activity : ' + this.activity+' time : '+this.time+' place : '+this.place)
     if (this.dateListCreated) {
-      this.eventData.addActivity(this.journeyId, this.planId, activity, time, place, this.activitiesPicture).then(() => {
-        this.place = place;
+      this.eventData.addActivity(this.journeyId, this.planId, this.activity, this.time, this.place, this.activitiesPicture, this.price).then(() => {
+        this.place = this.place;
         this.activity = '';
-        this.time = '';
+        this.time = this.time;
+        this.price = 0;
       });
     } else {
-      this.eventData.updateActivity(this.journeyId, this.planId, activity, time).then(() => {
+      this.eventData.updateActivity(this.journeyId, this.planId, this.activity, this.time).then(() => {
         this.activity = '';
         this.time = '';
       });
@@ -126,7 +127,7 @@ export class ActivityPage {
   }
 
   rangeChange() {
-    this.timeLabel = this.time + ':00';
+    //this.timeLabel = this.time + ':00';
   }
   public decrease() {
     if (this.time == 5) {

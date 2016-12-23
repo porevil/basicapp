@@ -32,7 +32,7 @@ export class EventData {
     }).then(newEvent => {
       this.journeyList.child(newEvent.key).child('id').set(newEvent.key);
       console.log('Initial All plans')
-      for (let index = 0; index < days; index++) {
+      for (let index = 0; index <= days; index++) {
         this.addFirstActivity(newEvent.key, index)
       }
 
@@ -76,11 +76,13 @@ export class EventData {
 
   }
 
-  addActivity(journey_id, dateKey, activity, time, place, picture): any {
+  addActivity(journey_id, dateKey, activity, time, place, picture, price): any {
     console.log('addActivity on journey_id ' + journey_id + ' update on plansId ' + dateKey);
     return this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('activities').push({
+      place: place,
       activity: activity,
-      time: time
+      time: time,
+      price: price
     }).then((newActitity) => {
       console.log('add place ' + place)
       this.journeyList.child(journey_id).child('day_plans').child('plans').child(dateKey).child('place').set(place)
@@ -140,12 +142,12 @@ export class EventData {
   }
 
   getPlanList(journey_id): any {
-    console.log('getPlanList by eventId ' + journey_id);
+    console.log('getPlanList by journey_id ' + journey_id);
     return this.journeyList.child(journey_id).child('day_plans').child('plans').orderByChild('index');
   }
 
   getPlanActivitys(journey_id, activity_id): any {
-    console.log('getPlanActivitys eventId ' + journey_id + ' activity_id ' + activity_id);
+    console.log('getPlanActivitys journey_id ' + journey_id + ' activity_id ' + activity_id);
     return this.journeyList.child(journey_id).child('day_plans').child('plans').child(activity_id).child('activities');
   }
 
