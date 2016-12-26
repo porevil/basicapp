@@ -19798,6 +19798,19 @@ page-login .error-message .item-inner {
   border-bottom: 0 !important;
 }
 
+page-login .login-description {
+  height: 40%;
+  line-height: 2em;
+}
+
+page-login .login-description p {
+  color: #fff;
+}
+
+page-login .login-button {
+  box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.18);
+}
+
 page-page-gmap-autocomplete #map {
   height: 40%;
 }

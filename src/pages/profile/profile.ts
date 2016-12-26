@@ -3,9 +3,12 @@ import { Component } from '@angular/core';
 import { ProfileData } from '../../providers/profile-data';
 import { AuthData } from '../../providers/auth-data';
 import { LoginPage } from '../login/login';
+import { User } from '../../providers/user';
+import { Storage } from '@ionic/storage';
 import firebase from 'firebase';
 
 @Component({
+  providers: [User, Storage],
   selector: 'page-profile',
   templateUrl: 'profile.html',
 })
@@ -16,7 +19,7 @@ export class ProfilePage {
   fire_uid: any
   current_user: any
   constructor(public nav: NavController, public profileData: ProfileData,
-    public authData: AuthData, public alertCtrl: AlertController, public navParams: NavParams) {
+    public authData: AuthData, public alertCtrl: AlertController, public navParams: NavParams, public user:User) {
     console.log(' ProfilePage constructor')
     this.fire_uid = firebase.auth().currentUser.uid;
     this.current_user = firebase.auth().currentUser
@@ -34,6 +37,7 @@ export class ProfilePage {
   logOut() {
     firebase.auth().signOut;
     this.authData.logoutUser().then(() => {
+      this.user.remove();
       this.nav.setRoot(LoginPage);
     });
   }

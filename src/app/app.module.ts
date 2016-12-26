@@ -17,6 +17,7 @@ import { ViewActivitiesPage } from '../pages/view-activities/view-activities';
 import { AuthData } from '../providers/auth-data';
 import { EventData } from '../providers/event-data';
 import { ProfileData } from '../providers/profile-data';
+import { User }  from '../providers/user';
 import { PageGmapAutocomplete } from '../pages/page-gmap-autocomplete/page-gmap-autocomplete';
 import { ModalAutocompleteItems } from '../pages/modal-autocomplete-items/modal-autocomplete-items';
 
@@ -65,6 +66,8 @@ import { ModalAutocompleteItems } from '../pages/modal-autocomplete-items/modal-
   ],
   providers: [AuthData,
     EventData,
-    ProfileData]
+    ProfileData,
+    Storage,
+    User]
 })
 export class AppModule { }

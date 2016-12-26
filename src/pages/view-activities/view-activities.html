@@ -17,7 +17,14 @@
   <ion-card>
     <ion-card-header>
       {{currentEvent?.name}} [view-activity]
+
     </ion-card-header>
+    <ion-item>
+      <ion-label>Day</ion-label>
+      <ion-select placeholder="Select" [(ngModel)]="id_selected" (ionChange)="onSelectDate(id_selected)">
+        <ion-option *ngFor="let plan of planList" value="{{plan.id}}">{{plan.index}}</ion-option>
+      </ion-select>
+    </ion-item>
   </ion-card>
 
   <ion-card class="add-guest-form">

@@ -18,7 +18,8 @@ export class ViewActivitiesPage implements OnInit {
   journeyId: any;
   planId: any;
   dayActivity: any;
-
+  planList: any;
+  id_selected: any;
   ngOnInit() {
     console.log('ngOnInit ViewActivities Page');
   }
@@ -33,6 +34,19 @@ export class ViewActivitiesPage implements OnInit {
     this.dayActivitiesList.forEach(element => {
       console.log(' activities : ' + element.activity);
     });
+
+    this.eventData.getPlanList(this.journeyId).on('value', snap => {
+      let rawList = [];
+      snap.forEach(snap => {
+        //console.log('id ' + snap.val().id + ' index ' + snap.val().index)
+        rawList.push({
+          id: snap.val().id,
+          index: snap.val().index
+        });
+      });
+      this.planList = rawList;
+    });
+
   }
 
   updateActivities(dayActivitiesList) {
@@ -43,9 +57,31 @@ export class ViewActivitiesPage implements OnInit {
 
 
   }
+
   ionViewDidLoad() {
     console.log('Hello ViewActivities Page');
   }
+
+  onSelectDate() {
+    console.log('onSelectDate '+this.id_selected );
+    
+    this.eventData.getPlanActivitys(this.journeyId, this.id_selected).on('value', snap => {
+      console.log('editPlans')
+      let rawList = [];
+      snap.forEach(snap => {
+        rawList.push({
+          id: snap.key,
+          activity: snap.val().activity,
+          place: snap.val().place,
+          price: snap.val().price,
+          time: snap.val().time
+        });
+        //console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
+      });
+      this.dayActivitiesList = rawList;
+    })
+  }
+
   addActivities() {
     let modal = this.modalCtrl.create(ActivityPage,
       {
@@ -56,23 +92,23 @@ export class ViewActivitiesPage implements OnInit {
     modal.onDidDismiss(data => {
       console.log('page > modal dismissed > data > ', data);
       //if (data) {
-        console.log('eventData.getPlanActivitys by journeyId '+this.journeyId+' planId:'+this.planId)
-        this.eventData.getPlanActivitys(this.journeyId, this.planId).on('value', snap => {
-          console.log('eventData.getPlanActivitys')
-          let rawList = [];
-          snap.forEach(snap => {
-            rawList.push({
-              id: snap.key,
-              activity: snap.val().activity,
-              time: snap.val().time
-            });
-            //console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
+      console.log('eventData.getPlanActivitys by journeyId ' + this.journeyId + ' planId:' + this.planId)
+      this.eventData.getPlanActivitys(this.journeyId, this.planId).on('value', snap => {
+        console.log('eventData.getPlanActivitys')
+        let rawList = [];
+        snap.forEach(snap => {
+          rawList.push({
+            id: snap.key,
+            activity: snap.val().activity,
+            time: snap.val().time
           });
-          this.dayActivitiesList = rawList;
-        })
-        //this.address.place = data.description;
-        // get details
-        //this.getPlaceDetail(data.place_id);
+          //console.log('viewActivities push ' + snap.key + ' activity ' + snap.val().activity)
+        });
+        this.dayActivitiesList = rawList;
+      })
+      //this.address.place = data.description;
+      // get details
+      //this.getPlaceDetail(data.place_id);
       //}
     })
     modal.present();
