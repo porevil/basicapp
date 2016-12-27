@@ -21,14 +21,21 @@
   <!--button ion-button block color="primary" (click)="goToList()">
     See your events
   </button-->
- 
+
   <ion-list>
     <ion-item *ngFor="let journey of journeys" (click)="goToDashBoard(journey.id,journey.event_name)">
       <h2>{{journey?.event_name}}</h2>
-      <p>From <strong>${{journey?.from_location}}</strong> To 
-      <strong>{{journey?.to_location}}</strong></p>
-      Start <p><strong>${{journey?.start_date}}</strong></p>
-      End <p><strong>{{journey?.end_date}}</strong></p>
+      <ion-row>
+        <ion-col>
+          From :<strong>{{journey?.from_location}}</strong> To :<strong>{{journey?.to_location}}</strong>
+        </ion-col>
+      </ion-row>
+      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="{{journey.start_date}}"></ion-datetime>
+      <ion-row>
+        <ion-col>
+          Start :<strong>{{journey?.start_date}} </strong> End :<strong>{{journey?.end_date}} </strong>
+        </ion-col>
+      </ion-row>
 
     </ion-item>
   </ion-list>
