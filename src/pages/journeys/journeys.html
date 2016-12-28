@@ -11,12 +11,48 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let event of eventList" (click)="goToEventDetail(event.id)">
+<ion-content fullscreen>
+  <ion-card *ngFor="let event of eventList" (click)="goToEventDetail(event.id)">
+
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <h2>{{event?.name}}</h2>
+        </ion-col>
+        <ion-col>
+          Ticket: {{event?.price}}
+        </ion-col>
+        <ion-col>
+          Date: {{event?.date}}
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small>
+            <ion-icon name="thumbs-up"></ion-icon>
+            <div>12 Likes</div>
+          </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small>
+            <ion-icon name="text"></ion-icon>
+            <div>4 Comments</div>
+          </button>
+      </ion-col>
+      <ion-col center text-center>
+        <ion-note>
+          11h ago
+        </ion-note>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
+  <!--ion-item *ngFor="let event of eventList" (click)="goToEventDetail(event.id)">
       <h2>{{event?.name}}</h2>
       <p>Ticket: <strong>${{event?.price}}</strong></p>
       <p>Date: <strong>{{event?.date}}</strong></p>
-    </ion-item>
-  </ion-list>
+    </ion-item-->
 </ion-content>

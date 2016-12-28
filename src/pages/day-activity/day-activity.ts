@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { EventData } from '../../providers/event-data';
+import { ViewMapsPage } from '../../pages/view-maps/view-maps';
+
 /*
   Generated class for the DayActivity page.
 
@@ -30,6 +32,8 @@ export class DayActivityPage {
     this.city = this.navParams.get('city')
   }
 
-
+  showViewMapPage() {
+    this.nav.push(ViewMapsPage);
+  }
 
 }

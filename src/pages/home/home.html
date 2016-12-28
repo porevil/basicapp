@@ -11,8 +11,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-
+<ion-content fullscreen>
 
   <ion-fab right name="add" style="z-index:100;bottom:50px">
     <button ion-fab mini (click)="createNewJourney()"><ion-icon name="add"></ion-icon></button>
@@ -22,22 +21,42 @@
     See your events
   </button-->
 
-  <ion-list>
-    <ion-item *ngFor="let journey of journeys" (click)="goToDashBoard(journey.id,journey.event_name)">
+
+  <ion-card *ngFor="let journey of journeys" (click)="goToDashBoard(journey.id,journey.event_name)">
+    <ion-card-content>
       <h2>{{journey?.event_name}}</h2>
       <ion-row>
         <ion-col>
-          From :<strong>{{journey?.from_location}}</strong> To :<strong>{{journey?.to_location}}</strong>
+          {{journey?.from_location}} To {{journey?.to_location}}
         </ion-col>
-      </ion-row>
-      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="{{journey.start_date}}"></ion-datetime>
-      <ion-row>
         <ion-col>
-          Start :<strong>{{journey?.start_date}} </strong> End :<strong>{{journey?.end_date}} </strong>
+          {{journey?.start_date}} - {{journey?.end_date}}
         </ion-col>
       </ion-row>
+    </ion-card-content>
 
-    </ion-item>
-  </ion-list>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small>
+            <ion-icon name="thumbs-up"></ion-icon>
+            <div>12 Likes</div>
+          </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small>
+            <ion-icon name="text"></ion-icon>
+            <div>4 Comments</div>
+          </button>
+      </ion-col>
+      <ion-col center text-center>
+        <ion-note>
+          11h ago
+        </ion-note>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
 
 </ion-content>

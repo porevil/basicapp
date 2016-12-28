@@ -20,6 +20,11 @@ import { ProfileData } from '../providers/profile-data';
 import { User }  from '../providers/user';
 import { PageGmapAutocomplete } from '../pages/page-gmap-autocomplete/page-gmap-autocomplete';
 import { ModalAutocompleteItems } from '../pages/modal-autocomplete-items/modal-autocomplete-items';
+import { GoogleMaps } from '../providers/google-maps';
+import { GoogleMapsCluster } from '../providers/google-maps-cluster';
+import { Connectivity } from '../providers/connectivity';
+import { ViewMapsPage } from '../pages/view-maps/view-maps';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +42,8 @@ import { ModalAutocompleteItems } from '../pages/modal-autocomplete-items/modal-
     DayActivityPage,
     ViewActivitiesPage,
     PageGmapAutocomplete,
-    ModalAutocompleteItems
+    ModalAutocompleteItems,
+    ViewMapsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, [
@@ -61,13 +67,14 @@ import { ModalAutocompleteItems } from '../pages/modal-autocomplete-items/modal-
     DayActivityPage,
     ViewActivitiesPage,
     PageGmapAutocomplete,
-    ModalAutocompleteItems
+    ModalAutocompleteItems,
+    ViewMapsPage
 
   ],
   providers: [AuthData,
     EventData,
     ProfileData,
     Storage,
-    User]
+    User, GoogleMaps, GoogleMapsCluster, Connectivity]
 })
 export class AppModule { }
